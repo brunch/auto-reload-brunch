@@ -1,0 +1,30 @@
+{
+  "name": "auto-reload-brunch",
+  "version": "1.2.0",
+  "description": "Adds automatic browser reloading support to brunch.",
+  "author": {
+    "name": "Paul Miller",
+    "url": "http://paulmillr.com/"
+  },
+  "homepage": "https://github.com/brunch/auto-reload-brunch",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:brunch/auto-reload-brunch.git"
+  },
+  "main": "./lib/index",
+  "scripts": {
+    "postinstall": "node setup.js postinstall",
+    "test": "node setup.js test"
+  },
+  "engines": {
+    "node": "~0.6.10"
+  },
+  "dependencies": {
+    "coffee-script": "1.2.0",
+    "ws": "0.4.14"
+  },
+  "devDependencies": {
+    "mocha": "0.12.1",
+    "expect.js": "0.1.2"
+  }
+}
