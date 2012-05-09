@@ -5,14 +5,18 @@ module.exports = class AutoReloader
   brunchPlugin: yes
 
   constructor: (@config) ->
+    @connections = []
     if @config.persistent
       @server = new WebSocketServer port: 9485
-      @server.on 'connection', (ws) =>
-        @ws = ws
+      @server.on 'connection', (connection) =>
+        @connections.push connection
+        connection.on 'close', =>
+          @connections.splice connection, 1
 
   onCompile: (changedFiles) ->
     return unless @config.persistent
-    @ws?.send 'compile'
+    @connections.forEach (connection) =>
+      connection.send 'compile'
 
   include: [
     (sysPath.join __dirname, '..', 'vendor', 'auto-reload.js')
