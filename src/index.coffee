@@ -15,8 +15,11 @@ module.exports = class AutoReloader
 
   onCompile: (changedFiles) ->
     return unless @config.persistent
-    @connections.forEach (connection) =>
-      connection.send 'compile'
+    @connections
+      .filter (connection) =>
+        connection.readyState is 1
+      .forEach (connection) =>
+        connection.send 'compile'
 
   include: [
     (sysPath.join __dirname, '..', 'vendor', 'auto-reload.js')
