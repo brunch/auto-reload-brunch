@@ -1,6 +1,7 @@
 (function() {
   var WebSocket = window.WebSocket || window.MozWebSocket;
-  if (!WebSocket) return;
+  var br = window.brunch;
+  if (!WebSocket || !br || !br['auto-reload'] || !br['auto-reload'].enabled) return;
 
   var connection = new WebSocket('ws://' + window.location.hostname + ':9485');
   connection.onmessage = function(event) {
