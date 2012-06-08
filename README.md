@@ -17,9 +17,10 @@ Because auto reload is often used only for html / style development
 by default plugin is disabled. You can enable it by adding a simple script
 to your page.
 
-```
-<script>
-  window.brunch = window.brunch || {};
-  window.brunch['auto-reload'] = {enabled: true};
-</script>
-```
+
+	<script>
+  		window.brunch = window.brunch || {};
+  		window.brunch['auto-reload'] = {enabled: true};
+	</script>
+
+**Note:** this snippet must be added **before** the other scripts on the page.
