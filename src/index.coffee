@@ -7,7 +7,7 @@ module.exports = class AutoReloader
   constructor: (@config) ->
     @connections = []
     if @config.persistent
-      @server = new WebSocketServer port: 9485
+      @server = new WebSocketServer host: '0.0.0.0', port: 9485
       @server.on 'connection', (connection) =>
         @connections.push connection
         connection.on 'close', =>
