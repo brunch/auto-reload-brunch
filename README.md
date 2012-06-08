@@ -24,3 +24,14 @@ to your page.
 	</script>
 
 **Note:** this snippet must be added **before** the other scripts on the page.
+
+To activate the websocket server (listening on port `9485`) set `persistent: true` in your `config.coffee`.
+
+	
+
+	exports.config =
+
+  		persistent: true # activate server component
+
+  		files:  		     		
+			… etc …
