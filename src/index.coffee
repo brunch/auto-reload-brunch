@@ -15,11 +15,13 @@ module.exports = class AutoReloader
 
   onCompile: (changedFiles) ->
     return unless @config.persistent
+    allCss = changedFiles.every (file)-> file.type is 'stylesheet'
+    message = if allCss then 'stylesheet' else 'page' 
     @connections
       .filter (connection) =>
         connection.readyState is 1
       .forEach (connection) =>
-        connection.send 'compile'
+        connection.send message
 
   include: [
     (sysPath.join __dirname, '..', 'vendor', 'auto-reload.js')
