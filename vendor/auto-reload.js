@@ -4,7 +4,7 @@
   if (!WebSocket || !br || !br['auto-reload'] || !br['auto-reload'].enabled) return;
 
   var cacheBuster = function(url){
-      var date = Math.round(+new Date()/1000).toString()
+      var date = Math.round(+new Date()/1000).toString();
       url = url.replace(/(\&|\\?)cacheBuster=\d*/,'');
       return url + ( url.indexOf('?') >=0 ? '&':'?') +'cacheBuster=' + date;
   }
