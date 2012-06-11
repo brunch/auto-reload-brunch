@@ -14,12 +14,14 @@
       window.location.reload(true);
     },
     stylesheet: function(){
-      var links = [].slice.call(document.querySelectorAll('link[rel="stylesheet"]'));
-      links.forEach(function(link) {
-          if(link != null && link.href != null){
-            link.href = cacheBuster(link.href);
-          }
-      });
+      [].slice
+        .call(document.querySelectorAll('link[rel="stylesheet"]'))
+        .filter(function(link){
+          return (link != null && link.href != null);
+        })
+        .forEach(function(link) {
+          link.href = cacheBuster(link.href);
+        });
     }
   }
 
