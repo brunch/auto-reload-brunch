@@ -15,7 +15,7 @@ module.exports = class AutoReloader
 
   onCompile: (changedFiles) ->
     return unless @config.persistent
-    allCss = (changedFiles.length isnt 0) and (changedFiles.every (file)-> file.type is 'stylesheet')
+    allCss = (changedFiles.length > 0) and (changedFiles.every (file) -> file.type is 'stylesheet')
     message = if allCss then 'stylesheet' else 'page'
     @connections
       .filter (connection) =>
