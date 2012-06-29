@@ -6,10 +6,10 @@ describe('Plugin', function() {
   });
 
   it('should be an object', function() {
-    expect(plugin).to.be.ok();
+    expect(plugin).to.be.ok;
   });
 
   it('should has #onCompile method', function() {
-    expect(plugin.onCompile).to.be.a(Function);
+    expect(plugin.onCompile).to.be.an.instanceof(Function);
   });
 });
