@@ -1,8 +1,8 @@
-## auto-reload-brunch 1.3.0 (June 11, 2012)
+# auto-reload-brunch 1.3.0 (June 29, 2012)
 * Reloading became smarter. If you change stylesheet, the page itself
 won't be reloaded etc.
 * Added node.js 0.8 and 0.9 support.
 * Package is now precompiled before every publishing to npm.
 
-## auto-reload-brunch 1.2.0 (May 18, 2012)
+# auto-reload-brunch 1.2.0 (May 18, 2012)
 * Initial release.
