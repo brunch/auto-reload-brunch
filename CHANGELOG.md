@@ -1,3 +1,6 @@
+# auto-reload-brunch 1.3.1 (June 29, 2012)
+* Fixed `config.persistent` bug.
+
 # auto-reload-brunch 1.3.0 (June 29, 2012)
 * Reloading became smarter. If you change stylesheet, the page itself
 won't be reloaded etc.
