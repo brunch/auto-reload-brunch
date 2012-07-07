@@ -13,7 +13,7 @@ module.exports = class AutoReloader
         connection.on 'close', =>
           @connections.splice connection, 1
 
-  onCompile: (changedFiles) ->
+  onCompile: (changedFiles) =>
     return unless @config.persistent
     allCss = (changedFiles.length > 0) and (changedFiles.every (file) -> file.type is 'stylesheet')
     message = if allCss then 'stylesheet' else 'page'
