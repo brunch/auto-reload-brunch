@@ -15,9 +15,9 @@ If you want to use git version of plugin, add
 Because auto reload is often used only for html / style development
 (because for scripts it would most of the time be quite annoying),
 by default plugin is disabled. You can enable it by adding a simple script
-to your page **before** the other scripts on the page.
+to your page **before the other scripts on the page**.
 
 	<script>
-		window.brunch = window.brunch || {};
-		window.brunch['auto-reload'] = {enabled: true};
+    window.brunch = window.brunch || {};
+    window.brunch['auto-reload'] = {enabled: true};
 	</script>
