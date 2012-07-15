@@ -1,3 +1,6 @@
+# auto-reload-brunch 1.3.2 (July 15, 2012)
+* Updated `ws` dependency to 0.4.20.
+
 # auto-reload-brunch 1.3.1 (June 29, 2012)
 * Fixed `config.persistent` bug.
 
