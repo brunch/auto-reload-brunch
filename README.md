@@ -21,3 +21,9 @@ to your page **before the other scripts on the page**.
       window.brunch = window.brunch || {};
       window.brunch['auto-reload'] = {enabled: true};
     </script>
+
+Additionally, if your `brunch watch` is running on a different machine than your
+preview screen, you can add `server` config variable to connect to a brunch/websocket server running
+another ip address. 
+
+	window.brunch['server'] = 'xxx.xxx.xxx.xxx';
