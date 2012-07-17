@@ -18,7 +18,7 @@
       [].slice
         .call(document.querySelectorAll('link[rel="stylesheet"]'))
         .filter(function(link){
-          return (link !== null && link.href !== null);
+          return (link != null && link.href != null);
         })
         .forEach(function(link) {
           link.href = cacheBuster(link.href);
@@ -31,7 +31,7 @@
     var message = event.data;
     var b = window.brunch;
     if (!b || !b['auto-reload'] || !b['auto-reload'].enabled) return;
-    if (reloaders[message] !== null) {
+    if (reloaders[message] != null) {
       reloaders[message]();
     } else {
       reloaders.page();
