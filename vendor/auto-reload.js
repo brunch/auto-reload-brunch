@@ -7,7 +7,7 @@
     var date = Math.round(Date.now() / 1000).toString();
     url = url.replace(/(\&|\\?)cacheBuster=\d*/, '');
     return url + (url.indexOf('?') >= 0 ? '&' : '?') +'cacheBuster=' + date;
-  }
+  };
 
   var reloaders = {
     page: function(){
@@ -24,9 +24,9 @@
           link.href = cacheBuster(link.href);
         });
     }
-  }
-
-  var connection = new WebSocket('ws://' + window.location.hostname + ':9485');
+  };
+  var host = (!br['server']) ? window.location.hostname : br['server'];
+  var connection = new WebSocket('ws://' + host + ':9485');
   connection.onmessage = function(event) {
     var message = event.data;
     var b = window.brunch;
