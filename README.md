@@ -1,3 +1,4 @@
+[![build status](https://secure.travis-ci.org/brunch/auto-reload-brunch.png)](http://travis-ci.org/brunch/auto-reload-brunch)
 ## auto-reload-brunch
 Adds automatic browser reloading support to
 [brunch](http://brunch.io).
