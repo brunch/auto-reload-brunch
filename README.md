@@ -31,9 +31,9 @@ another ip address.
 To use auto reload on a specific port, such as when multiple apps are running
 on the same domain, configure the following.  On the client:
 
-  window.brunch['auto-reload'].port = 1234
+  	window.brunch['auto-reload'].port = 1234
 
 In config.coffee
 
-  autoReload:
-    port: 1234
+	autoReload:
+	  port: 1234
