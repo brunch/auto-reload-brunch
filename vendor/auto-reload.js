@@ -1,7 +1,8 @@
 (function() {
   var WebSocket = window.WebSocket || window.MozWebSocket;
-  var br = window.brunch;
-  if (!WebSocket || !br || !br['auto-reload'] || !br['auto-reload'].enabled) return;
+  var br = window.brunch || {};
+  var ar = br['auto-reload'] || {};
+  if (!WebSocket || !ar.enabled) return;
 
   var cacheBuster = function(url){
     var date = Math.round(Date.now() / 1000).toString();
@@ -25,8 +26,9 @@
         });
     }
   };
+  var port = ar.port || 9485;
   var host = (!br['server']) ? window.location.hostname : br['server'];
-  var connection = new WebSocket('ws://' + host + ':9485');
+  var connection = new WebSocket('ws://' + host + ':' + port);
   connection.onmessage = function(event) {
     var message = event.data;
     var b = window.brunch;
