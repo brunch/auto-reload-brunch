@@ -1,3 +1,6 @@
+# auto-reload-brunch 1.4.0 (November 26, 2012)
+* Added ability to customize websocket server ip & port and remote server ip.
+
 # auto-reload-brunch 1.3.2 (July 15, 2012)
 * Updated `ws` dependency to 0.4.20.
 
