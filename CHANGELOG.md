@@ -1,3 +1,6 @@
+# auto-reload-brunch 1.5.0 (January 13, 2012)
+* Improved installation process.
+
 # auto-reload-brunch 1.4.0 (November 26, 2012)
 * Added ability to customize websocket server ip & port and remote server ip.
 
