@@ -1,3 +1,6 @@
+# auto-reload-brunch 1.5.1 (January 30, 2012)
+* Plugin is now disabled in production environment (w / --optimize).
+
 # auto-reload-brunch 1.5.0 (January 13, 2012)
 * Improved installation process.
 
