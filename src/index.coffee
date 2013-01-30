@@ -5,8 +5,9 @@ module.exports = class AutoReloader
   brunchPlugin: yes
 
   constructor: (@config) ->
+    @enabled = @config.persistent and not @config.optimize
     @connections = []
-    if @config.persistent
+    if @enabled
       cfg = @config?.autoReload ? {}
       port = cfg.port ? 9485
       @server = new WebSocketServer host: '0.0.0.0', port: port
@@ -16,7 +17,7 @@ module.exports = class AutoReloader
           @connections.splice connection, 1
 
   onCompile: (changedFiles) =>
-    return unless @config.persistent
+    return unless @enabled
     allCss = (changedFiles.length > 0) and (changedFiles.every (file) -> file.type is 'stylesheet')
     message = if allCss then 'stylesheet' else 'page'
     @connections
@@ -25,6 +26,8 @@ module.exports = class AutoReloader
       .forEach (connection) =>
         connection.send message
 
-  include: [
-    (sysPath.join __dirname, '..', 'vendor', 'auto-reload.js')
-  ]
+  include: ->
+    if @enabled
+      [(sysPath.join __dirname, '..', 'vendor', 'auto-reload.js')]
+    else
+      []
