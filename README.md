@@ -5,11 +5,13 @@ Adds automatic browser reloading support to
 The plugin uses WebSocket technology to pass `compile` events to browser.
 
 ## Usage
-Add `"auto-reload-brunch": "x.y.z"` to `package.json` of your brunch app.
+Install the plugin via npm with `npm install --save auto-reload-brunch`.
 
-Pick a plugin version that corresponds to your minor (y) brunch version.
+Or, do manual install:
 
-If you want to use git version of plugin, add
+* Add `"auto-reload-brunch": "x.y.z"` to `package.json` of your brunch app.
+  Pick a plugin version that corresponds to your minor (y) brunch version.
+* If you want to use git version of plugin, add
 `"auto-reload-brunch": "git+ssh://git@github.com:brunch/auto-reload-brunch.git"`.
 
 Because auto reload is often used only for html / style development
@@ -24,7 +26,7 @@ to your page **before the other scripts on the page**.
 
 Additionally, if your `brunch watch` is running on a different machine than your
 preview screen, you can add `server` config variable to connect to a brunch/websocket server running
-another ip address. 
+another ip address.
 
 	window.brunch['server'] = 'xxx.xxx.xxx.xxx';
 
