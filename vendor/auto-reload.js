@@ -1,8 +1,8 @@
 (function() {
   var WebSocket = window.WebSocket || window.MozWebSocket;
-  var br = window.brunch || {};
-  var ar = br['auto-reload'] || {};
-  if (!WebSocket || !ar.enabled) return;
+  var br = window.brunch = (window.brunch || {});
+  var ar = br['auto-reload'] = (br['auto-reload'] || {});
+  if (!WebSocket || ar.disabled) return;
 
   var cacheBuster = function(url){
     var date = Math.round(Date.now() / 1000).toString();
@@ -31,8 +31,7 @@
   var connection = new WebSocket('ws://' + host + ':' + port);
   connection.onmessage = function(event) {
     var message = event.data;
-    var b = window.brunch;
-    if (!b || !b['auto-reload'] || !b['auto-reload'].enabled) return;
+    if (ar.disabled) return;
     if (reloaders[message] != null) {
       reloaders[message]();
     } else {
