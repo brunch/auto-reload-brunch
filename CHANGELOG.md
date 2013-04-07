@@ -1,3 +1,6 @@
+# auto-reload-brunch 1.6.0 (7 April 2013)
+* Enabled plugin by default.
+
 # auto-reload-brunch 1.5.2 (19 March 2013)
 * Added node 0.10 support, removed coffee-script dependency.
 
