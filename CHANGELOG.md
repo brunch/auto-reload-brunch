@@ -1,3 +1,6 @@
+# auto-reload-brunch 1.6.1 (18 April 2013)
+* Moved configuration to `config.plugins.autoReload` from `config.autoReload`.
+
 # auto-reload-brunch 1.6.0 (7 April 2013)
 * Enabled plugin by default.
 
