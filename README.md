@@ -34,8 +34,9 @@ on the same domain, configure the following.  On the client:
 
 In config.coffee
 
-	autoReload:
-	  port: 1234
+	plugins:
+	  autoReload:
+	    port: 1234
 
 ## License
 
