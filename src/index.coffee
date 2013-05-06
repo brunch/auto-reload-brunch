@@ -1,6 +1,9 @@
 sysPath = require 'path'
 WebSocketServer = (require 'ws').Server
 
+isCss = (file) ->
+  sysPath.extname(file.path) is '.css'
+
 module.exports = class AutoReloader
   brunchPlugin: yes
 
@@ -20,7 +23,7 @@ module.exports = class AutoReloader
 
   onCompile: (changedFiles) =>
     return unless @enabled
-    allCss = (changedFiles.length > 0) and (changedFiles.every (file) -> file.type is 'stylesheet')
+    allCss = (changedFiles.length > 0) and changedFiles.every(isCss)
     message = if allCss then 'stylesheet' else 'page'
     @connections
       .filter (connection) =>
