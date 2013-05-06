@@ -1,3 +1,6 @@
+# auto-reload-brunch 1.6.2 (6 May 2013)
+* Fixed styles reloading in brunch 1.6.4+.
+
 # auto-reload-brunch 1.6.1 (18 April 2013)
 * Moved configuration to `config.plugins.autoReload` from `config.autoReload`.
 
