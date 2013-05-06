@@ -36,3 +36,5 @@ module.exports = class AutoReloader
       [(sysPath.join __dirname, '..', 'vendor', 'auto-reload.js')]
     else
       []
+
+  teardown: -> @server?.close()
