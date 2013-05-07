@@ -14,6 +14,11 @@
       "homepage": "http://paulmillr.com/"
     }
   ],
+  "ignore": [
+    "lib",
+    "src",
+    "test"
+  ],
   "require": {
       "robloach/component-installer": "*"
   },
