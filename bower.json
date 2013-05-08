@@ -1,0 +1,13 @@
+{
+  "name": "auto-reload-brunch",
+  "version": "1.6.2",
+  "description": "Adds automatic browser reloading support to brunch.",
+  "main": "vendor/auto-reload.js",
+  "ignore": [
+    "lib",
+    "src",
+    "test"
+  ],
+  "dependencies": {
+  }
+}

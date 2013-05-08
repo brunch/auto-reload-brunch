@@ -1,0 +1,32 @@
+{
+  "name": "auto-reload-brunch",
+  "version": "1.6.2",
+  "type": "component",
+  "keywords": [
+    "JavaScript",
+    "brunch"
+  ],
+  "homepage": "https://github.com/brunch/auto-reload-brunch",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Paul Miller",
+      "homepage": "http://paulmillr.com/"
+    }
+  ],
+  "ignore": [
+    "lib",
+    "src",
+    "test"
+  ],
+  "require": {
+      "robloach/component-installer": "*"
+  },
+  "extra": {
+    "component": {
+      "scripts": [
+        "vendor/auto-reload.js"
+      ]
+    }
+  }
+}
