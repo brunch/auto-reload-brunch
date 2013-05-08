@@ -15,28 +15,32 @@ Or, do manual install:
 `"auto-reload-brunch": "git+ssh://git@github.com:brunch/auto-reload-brunch.git"`.
 
 Auto-reload-brunch can be disabled with this command:
-
-    <script>
-      window.brunch = window.brunch || {};
-      window.brunch['auto-reload'] = {disabled: true};
-    </script>
+```html
+<script>
+	window.brunch = window.brunch || {};
+	window.brunch['auto-reload'] = {disabled: true};
+</script>
+```
 
 Additionally, if your `brunch watch` is running on a different machine than your
 preview screen, you can add `server` config variable to connect to a brunch/websocket server running
 another ip address.
-
-	window.brunch['server'] = 'xxx.xxx.xxx.xxx';
+```javascript
+window.brunch['server'] = 'xxx.xxx.xxx.xxx';
+```
 
 To use auto reload on a specific port, such as when multiple apps are running
 on the same domain, configure the following.  On the client:
+```javascript
+window.brunch['auto-reload'].port = 1234
+```
 
-  	window.brunch['auto-reload'].port = 1234
-
-In config.coffee
-
-	plugins:
-	  autoReload:
-	    port: 1234
+In config.coffee 
+```coffeescript
+plugins:
+  autoReload:
+    port: 1234
+```
 
 ## License
 
