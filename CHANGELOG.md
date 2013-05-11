@@ -1,3 +1,6 @@
+# auto-reload-brunch 1.6.3 (11 May 2013)
+* Added `teardown` API support.
+
 # auto-reload-brunch 1.6.2 (6 May 2013)
 * Fixed styles reloading in brunch 1.6.4+.
 
