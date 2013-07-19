@@ -20,7 +20,12 @@ module.exports = class AutoReloader
         @connections.push connection
         connection.on 'close', =>
           @connections.splice connection, 1
-
+      @server.on 'error', (error) ->
+        console.error 'AutoReload ' +
+          if error.toString().match /EADDRINUSE/
+            "cannot start because port #{port} is in use"
+          else error
+      
   onCompile: (changedFiles) =>
     return unless @enabled
     allCss = (changedFiles.length > 0) and changedFiles.every(isCss)
