@@ -10,7 +10,7 @@ module.exports = class AutoReloader
   constructor: (@config) ->
     if @config.autoReload
       console.warn 'Warning: config.autoReload is deprecated, please move it to config.plugins.autoReload'
-    @enabled = @config.persistent and not @config.optimize
+    @enabled = @config.persistent
     @connections = []
     if @enabled
       cfg = @config.plugins?.autoReload ? @config.autoReload ? {}
