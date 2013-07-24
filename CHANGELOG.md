@@ -1,3 +1,6 @@
+# auto-reload-brunch 1.6.4 (24 July 2013)
+* Handled more WebSocketServer errors.
+
 # auto-reload-brunch 1.6.3 (11 May 2013)
 * Added `teardown` API support.
 
