@@ -10,10 +10,10 @@ module.exports = class AutoReloader
   constructor: (@config) ->
     if @config.autoReload
       console.warn 'Warning: config.autoReload is deprecated, please move it to config.plugins.autoReload'
-    @enabled = @config.persistent
+    cfg = @config.plugins?.autoReload ? @config.autoReload ? {}
+    @enabled = @config.persistent and cfg.enabled isnt false
     @connections = []
     if @enabled
-      cfg = @config.plugins?.autoReload ? @config.autoReload ? {}
       port = cfg.port ? 9485
       @server = new WebSocketServer host: '0.0.0.0', port: port
       @server.on 'connection', (connection) =>
