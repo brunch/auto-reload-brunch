@@ -1,3 +1,6 @@
+# auto-reload-brunch 1.6.5 (28 August 2013)
+* Added `enabled` option.
+
 # auto-reload-brunch 1.6.4 (24 July 2013)
 * Handled more WebSocketServer errors.
 
