@@ -9,7 +9,7 @@ module.exports = class AutoReloader
   brunchPlugin: yes
 
   constructor: (@config) ->
-    if @config.autoReload
+    if 'autoReload' of @config
       console.warn 'Warning: config.autoReload is deprecated, please move it to config.plugins.autoReload'
     cfg = @config.plugins?.autoReload ? @config.autoReload ? {}
     @enabled = cfg.enabled ? true if @config.persistent
