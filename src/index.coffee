@@ -14,8 +14,8 @@ module.exports = class AutoReloader
     @enabled = @config.persistent and cfg.enabled isnt false
     @connections = []
     if @enabled
-      port = cfg.port ? 9485
-      @server = new WebSocketServer host: '0.0.0.0', port: port
+      @port = cfg.port ? 9485
+      @server = new WebSocketServer {host: '0.0.0.0', @port}
       @server.on 'connection', (connection) =>
         @connections.push connection
         connection.on 'close', =>
@@ -44,10 +44,12 @@ module.exports = class AutoReloader
 
   teardown: -> @server?.close()
 
-  # act as a compiler to automatically set ws port
+  # act as a compiler to automatically set ws port on client side
   type: 'javascript'
   extension: 'js'
   compile: (params, callback) ->
+    if @enabled and @port isnt 9485 and 'auto-reload.js' is sysPath.basename params.path
+      params.data = params.data.replace 9485, @port
     callback null, params
 
 delete AutoReloader::compile if (require 'cluster').isWorker
