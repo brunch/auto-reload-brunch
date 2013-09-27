@@ -1,6 +1,6 @@
 ## auto-reload-brunch
 Adds automatic browser reloading support to
-[brunch](http://brunch.io).
+[brunch](http://brunch.io) when using the `brunch watch` command.
 
 The plugin uses WebSocket technology to pass `compile` events to browser.
 
