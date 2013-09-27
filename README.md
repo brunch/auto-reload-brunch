@@ -4,7 +4,7 @@ Adds automatic browser reloading support to
 
 The plugin uses WebSocket technology to pass `compile` events to browser.
 
-## Usage
+## Installation
 Install the plugin via npm with `npm install --save auto-reload-brunch`.
 
 Or, do manual install:
@@ -14,32 +14,61 @@ Or, do manual install:
 * If you want to use git version of plugin, add
 `"auto-reload-brunch": "git+ssh://git@github.com:brunch/auto-reload-brunch.git"`.
 
-Auto-reload-brunch can be disabled with this command:
+## Usage
+In most cases, auto-reload-brunch works out of the box without any further
+configuration. Stylesheet changes will be applied seamlessly, and any other
+changes will trigger a page refresh.
+
+### Brunch plugin settings
+If customization is needed or desired, settings can be modified in your brunch
+config file (such as `brunch-config.coffee`):
+
+* __enabled__: _(Boolean or Object)_ Defaults to `true`
+    * As a boolean, turn on Auto-Reloading for any change in your project, or
+      off entirely.
+    * As an object, enable Auto-Reloading for specific types of changes. Keys
+      are the file extensions of compiled files (`js` or `css`) or `assets` to
+      cover any other watched files that do not get compiled. When an object is
+      used, only the types explicitly set to `true` will trigger an Auto-Reload.
+* __port__: _(Integer or Array of Integers)_ Defaults to `[9485..9495]`
+    * The port to run the WebSocket server on. It will be applied automatically
+      on the server and the client.
+    * If an array, it will use the first value, but automatically fail over to
+      the next value in the array if the attempted port is already in use on the
+      system. This allows multiple instances to run without conflict.
+
+**Example:**
+```coffeescript
+exports.config =
+  ...
+  plugins:
+    autoReload:
+      enabled:
+        css: on
+        js: on
+        assets: off
+      port: [1234, 2345, 3456]
+```
+
+### Client-side settings
+If your `brunch watch` is running on a different machine than your
+preview screen, you can set `server` config variable to connect to a
+brunch/websocket server running at another ip address.
+
 ```html
 <script>
-	window.brunch = window.brunch || {};
-	window.brunch['auto-reload'] = {disabled: true};
+  window.brunch = window.brunch || {};
+  window.brunch.server = '192.168.1.2';
 </script>
 ```
 
-Additionally, if your `brunch watch` is running on a different machine than your
-preview screen, you can add `server` config variable to connect to a brunch/websocket server running
-another ip address.
-```javascript
-window.brunch['server'] = 'xxx.xxx.xxx.xxx';
-```
+You can also set the port (single integer only) and/or disable auto-reload
+via client-side scripting, although generally it's a better idea to use
+brunch config for this:
 
-To use auto reload on a specific port, such as when multiple apps are running
-on the same domain, configure the following.  On the client:
 ```javascript
 window.brunch['auto-reload'].port = 1234
-```
-
-In config.coffee 
-```coffeescript
-plugins:
-  autoReload:
-    port: 1234
+window.brunch['auto-reload'].disabled = true;
 ```
 
 ## License
