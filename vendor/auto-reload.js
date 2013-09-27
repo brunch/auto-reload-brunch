@@ -28,14 +28,23 @@
   };
   var port = ar.port || 9485;
   var host = (!br['server']) ? window.location.hostname : br['server'];
-  var connection = new WebSocket('ws://' + host + ':' + port);
-  connection.onmessage = function(event) {
-    var message = event.data;
-    if (ar.disabled) return;
-    if (reloaders[message] != null) {
-      reloaders[message]();
-    } else {
-      reloaders.page();
-    }
+  var connect = function(){
+    var connection = new WebSocket('ws://' + host + ':' + port);
+    connection.onmessage = function(event){
+      var message = event.data;
+      if (ar.disabled) return;
+      if (reloaders[message] != null) {
+        reloaders[message]();
+      } else {
+        reloaders.page();
+      }
+    };
+    connection.onerror = function(){
+      connection.close();
+    };
+    connection.onclose = function(){
+      window.setTimeout(connect, 1000);
+    };
   };
+  connect();
 })();
