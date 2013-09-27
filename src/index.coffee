@@ -1,5 +1,6 @@
 sysPath = require 'path'
 WebSocketServer = (require 'ws').Server
+{isWorker} = require 'cluster'
 
 isCss = (file) ->
   sysPath.extname(file.path) is '.css'
@@ -13,8 +14,8 @@ module.exports = class AutoReloader
     cfg = @config.plugins?.autoReload ? @config.autoReload ? {}
     @enabled = @config.persistent and cfg.enabled isnt false
     @connections = []
-    if @enabled
-      @port = cfg.port ? 9485
+    @port = cfg.port ? 9485
+    if @enabled and not isWorker
       @server = new WebSocketServer {host: '0.0.0.0', @port}
       @server.on 'connection', (connection) =>
         @connections.push connection
@@ -51,5 +52,3 @@ module.exports = class AutoReloader
     if @enabled and @port isnt 9485 and 'auto-reload.js' is sysPath.basename params.path
       params.data = params.data.replace 9485, @port
     callback null, params
-
-delete AutoReloader::compile if (require 'cluster').isWorker
