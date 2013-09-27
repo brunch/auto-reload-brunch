@@ -14,18 +14,24 @@ module.exports = class AutoReloader
     cfg = @config.plugins?.autoReload ? @config.autoReload ? {}
     @enabled = cfg.enabled ? true if @config.persistent
     @connections = []
-    @port = cfg.port ? 9485
-    if @enabled and not isWorker
+    ports = cfg.port ? [9485..9495]
+    ports = [ports] unless Array.isArray ports
+    @port = ports.shift()
+    startServer = =>
       @server = new WebSocketServer {host: '0.0.0.0', @port}
       @server.on 'connection', (connection) =>
         @connections.push connection
         connection.on 'close', =>
           @connections.splice connection, 1
-      @server.on 'error', (error) ->
-        console.error 'AutoReload ' +
-          if error.toString().match /EADDRINUSE/
-            "cannot start because port #{port} is in use"
-          else error
+      @server.on 'error', (error) =>
+        if error.toString().match /EADDRINUSE/
+          if ports.length
+            @port = ports.shift()
+            return startServer()
+          else
+            error = "cannot start because port #{@port} is in use"
+        console.error "AutoReload #{error}"
+    startServer() if @enabled and not isWorker
 
   onCompile: (changedFiles) ->
     return unless @enabled
