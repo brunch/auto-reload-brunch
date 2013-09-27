@@ -27,7 +27,7 @@ module.exports = class AutoReloader
             "cannot start because port #{port} is in use"
           else error
 
-  onCompile: (changedFiles) =>
+  onCompile: (changedFiles) ->
     return unless @enabled
     allCss = (changedFiles.length > 0) and changedFiles.every(isCss)
     message = if allCss then 'stylesheet' else 'page'
