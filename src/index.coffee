@@ -12,7 +12,7 @@ module.exports = class AutoReloader
     if @config.autoReload
       console.warn 'Warning: config.autoReload is deprecated, please move it to config.plugins.autoReload'
     cfg = @config.plugins?.autoReload ? @config.autoReload ? {}
-    @enabled = @config.persistent and cfg.enabled isnt false
+    @enabled = cfg.enabled ? true if @config.persistent
     @connections = []
     @port = cfg.port ? 9485
     if @enabled and not isWorker
@@ -29,7 +29,17 @@ module.exports = class AutoReloader
 
   onCompile: (changedFiles) ->
     return unless @enabled
-    allCss = (changedFiles.length > 0) and changedFiles.every(isCss)
+    didCompile = changedFiles.length > 0
+    allCss = didCompile and changedFiles.every(isCss)
+    if '[object Object]' is toString.call @enabled
+      return unless didCompile or @enabled.assets
+      if allCss
+        return unless @enabled.css
+      else if didCompile
+        changedExts = changedFiles.map (_) ->
+          sysPath.extname(_.path).slice(1)
+        return unless Object.keys(@enabled).some (_) =>
+          @enabled[_] and _ in changedExts
     message = if allCss then 'stylesheet' else 'page'
     @connections
       .filter (connection) =>
