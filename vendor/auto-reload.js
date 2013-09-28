@@ -40,7 +40,7 @@
       }
     };
     connection.onerror = function(){
-      connection.close();
+      if (connection.readyState) connection.close();
     };
     connection.onclose = function(){
       window.setTimeout(connect, 1000);
