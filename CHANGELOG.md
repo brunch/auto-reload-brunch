@@ -1,3 +1,10 @@
+# auto-reload-brunch 1.7.0 (28 September 2013)
+* Automatically change port setting on client-side to match server's
+* Client auto-reconnect, so manual refresh is not needed after a brunch restart
+* Fine-grained enable settings to customize what types of changes trigger an
+  auto-reload.
+* Port setting can be an array for automatic recovery from port conflicts
+
 # auto-reload-brunch 1.6.5 (28 August 2013)
 * Added `enabled` option.
 
