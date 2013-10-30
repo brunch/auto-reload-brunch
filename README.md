@@ -36,6 +36,10 @@ config file (such as `brunch-config.coffee`):
     * If an array, it will use the first value, but automatically fail over to
       the next value in the array if the attempted port is already in use on the
       system. This allows multiple instances to run without conflict.
+* __delay__: _(Integer, in milliseconds)_ Optional, no default
+    * If your system is having race-condition type problems when the browser
+      tries to reload immediately after a compile, use this to set a delay
+      before the reload signal is sent.
 
 **Example:**
 ```coffeescript
@@ -48,6 +52,7 @@ exports.config =
         js: on
         assets: off
       port: [1234, 2345, 3456]
+      delay: 200 if require('os').platform() is 'win32'
 ```
 
 ### Client-side settings
