@@ -13,6 +13,7 @@ module.exports = class AutoReloader
       console.warn 'Warning: config.autoReload is deprecated, please move it to config.plugins.autoReload'
     cfg = @config.plugins?.autoReload ? @config.autoReload ? {}
     @enabled = cfg.enabled ? true if @config.persistent
+    {@delay} = cfg
     @connections = []
     ports = cfg.port ? [9485..9495]
     ports = [ports] unless Array.isArray ports
@@ -47,11 +48,17 @@ module.exports = class AutoReloader
         return unless Object.keys(@enabled).some (_) =>
           @enabled[_] and _ in changedExts
     message = if allCss then 'stylesheet' else 'page'
-    @connections
+
+    sendMessage = => @connections
       .filter (connection) =>
         connection.readyState is 1
       .forEach (connection) =>
         connection.send message
+
+    if @delay
+      setTimeout sendMessage, @delay
+    else
+      do sendMessage
 
   include: ->
     if @enabled
