@@ -1,3 +1,6 @@
+# auto-reload-brunch 1.7.1 (2 November 2013)
+* Added `delay` option
+
 # auto-reload-brunch 1.7.0 (28 September 2013)
 * Automatically change port setting on client-side to match server's
 * Client auto-reconnect, so manual refresh is not needed after a brunch restart
