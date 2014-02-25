@@ -1,3 +1,6 @@
+var expect = require('chai').expect;
+var Plugin = require('./index');
+
 describe('Plugin', function() {
   var plugin;
 
