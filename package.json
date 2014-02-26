@@ -1,12 +1,13 @@
 {
   "name": "auto-reload-brunch",
-  "version": "1.7.1",
+  "version": "1.7.2",
   "description": "Adds automatic browser reloading support to brunch.",
   "author": {
     "name": "Paul Miller",
     "url": "http://paulmillr.com/"
   },
   "homepage": "https://github.com/brunch/auto-reload-brunch",
+  "keywords": ["brunchplugin", "auto-reload", "websocket", "auto reload"],
   "repository": {
     "type": "git",
     "url": "git@github.com:brunch/auto-reload-brunch.git"

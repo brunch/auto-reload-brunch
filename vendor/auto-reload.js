@@ -27,17 +27,15 @@
     }
   };
   var port = ar.port || 9485;
-  var host = (!br['server']) ? window.location.hostname : br['server'];
+  var host = br.server || window.location.hostname;
+
   var connect = function(){
     var connection = new WebSocket('ws://' + host + ':' + port);
     connection.onmessage = function(event){
-      var message = event.data;
       if (ar.disabled) return;
-      if (reloaders[message] != null) {
-        reloaders[message]();
-      } else {
-        reloaders.page();
-      }
+      var message = event.data;
+      var reloader = reloaders[message] || reloaders.page;
+      reloader();
     };
     connection.onerror = function(){
       if (connection.readyState) connection.close();

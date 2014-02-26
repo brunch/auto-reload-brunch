@@ -1,3 +1,6 @@
+# auto-reload-brunch 1.7.2 (26 February 2014)
+* Updated `ws` module.
+
 # auto-reload-brunch 1.7.1 (2 November 2013)
 * Added `delay` option
 
