@@ -1,3 +1,6 @@
+# auto-reload-brunch 1.7.3 (27 February 2014)
+* Fix include script regression bug
+
 # auto-reload-brunch 1.7.2 (26 February 2014)
 * Updated `ws` module.
 
