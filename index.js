@@ -93,7 +93,7 @@ AutoReloader.prototype.onCompile = function(changedFiles) {
   (this.delay) ? setTimeout(sendMessage, this.delay) : sendMessage();
 };
 
-var incPath = sysPath.join(__dirname, '..', 'vendor', 'auto-reload.js');
+var incPath = sysPath.join(__dirname, 'vendor', 'auto-reload.js');
 AutoReloader.prototype.include = function() {
   return this.enabled ? [incPath] : [];
 };
