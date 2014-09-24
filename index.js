@@ -26,6 +26,7 @@ function AutoReloader(config) {
   var port = this.port = ports.shift();
 
   var startServer = (function() {
+    this.port = port;
     var server = this.server = new WebSocketServer({
       host: '0.0.0.0',
       port: port
@@ -45,7 +46,7 @@ function AutoReloader(config) {
           error = "cannot start because port " + port + " is in use";
         }
       }
-      console.error("AutoReload " + error);
+      // console.error("AutoReload " + error);
     });
   }).bind(this);
 
