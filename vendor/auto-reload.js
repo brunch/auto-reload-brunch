@@ -24,12 +24,13 @@
         .forEach(function(link) {
           link.href = cacheBuster(link.href);
         });
-        
+
       // hack to force page repaint in Chrome
       var el=document.body;
-      el.style.display='none'; 
+      var bodyDisplay=el.style.display || 'block';
+      el.style.display='none';
       el.offsetHeight;
-      el.style.display='block';
+      el.style.display=bodyDisplay;
     }
   };
   var port = ar.port || 9485;
