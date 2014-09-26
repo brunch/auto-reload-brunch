@@ -1,3 +1,7 @@
+# auto-reload-brunch 1.7.4 (26 September 2014)
+* Fix automatic port collision resolution
+* Explicitly trigger browser repaint on style updates
+
 # auto-reload-brunch 1.7.3 (27 February 2014)
 * Fix include script regression bug
 
