@@ -13,14 +13,18 @@ function AutoReloader(config) {
   }
   var plugins = config.plugins || {};
   var cfg = plugins.autoReload || {};
+  var ports;
+
+  if (cfg.port == null) {
+    ports = [9485, 9486, 9487, 9488, 9489, 9490, 9491, 9492, 9493, 9494, 9495];
+  } else {
+    ports = Array.isArray(cfg.port) ? cfg.port.slice() : [cfg.port];
+  }
+
   if (this.config.persistent) {
     this.enabled = (cfg.enabled == null) ? true : cfg.enabled;
   }
   this.delay = cfg.delay;
-  var ports = cfg.port || [
-    9485, 9486, 9487, 9488, 9489, 9490, 9491, 9492, 9493, 9494, 9495
-  ];
-  if (!Array.isArray(ports)) ports = [ports];
 
   var conns = this.connections = [];
   var port = this.port = ports.shift();
