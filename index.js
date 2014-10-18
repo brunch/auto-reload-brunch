@@ -13,10 +13,10 @@ function AutoReloader(config) {
   }
   var plugins = config.plugins || {};
   var cfg = plugins.autoReload || {};
-  var ports;
+  var ports = [];
 
   if (cfg.port == null) {
-    ports = [9485, 9486, 9487, 9488, 9489, 9490, 9491, 9492, 9493, 9494, 9495];
+    for (var i = 0; i < 11; i++) ports.push(9485 + i);
   } else {
     ports = Array.isArray(cfg.port) ? cfg.port.slice() : [cfg.port];
   }
