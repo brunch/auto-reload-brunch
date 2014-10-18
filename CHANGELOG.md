@@ -1,3 +1,6 @@
+# auto-reload-brunch 1.7.5 (18 October 2014)
+* Fix bug with custom port arrays and recent 0.11.x versions of node.js
+
 # auto-reload-brunch 1.7.4 (26 September 2014)
 * Fix automatic port collision resolution
 * Explicitly trigger browser repaint on style updates
