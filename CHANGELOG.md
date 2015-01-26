@@ -1,3 +1,8 @@
+# auto-reload-brunch 1.7.6 (26 January 2015)
+* Automatically use `localhost` as the host if not specified by the user
+  and `window.location.hostname` does not resolve to anything.
+  * Makes it work with NW.js (fka node-webkit) out of the box
+
 # auto-reload-brunch 1.7.5 (18 October 2014)
 * Fix bug with custom port arrays and recent 0.11.x versions of node.js
 
