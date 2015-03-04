@@ -1,3 +1,9 @@
+# auto-reload-brunch 1.7.7 (4 March 2015)
+* Updated `ws` to 0.7.
+* Added `host` option.
+* Added `forceRepaint` option.
+* Fixed repaints for the latest chrome
+
 # auto-reload-brunch 1.7.6 (26 January 2015)
 * Automatically use `localhost` as the host if not specified by the user
   and `window.location.hostname` does not resolve to anything.

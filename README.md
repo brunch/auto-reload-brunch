@@ -40,6 +40,8 @@ config file (such as `brunch-config.coffee`):
     * If your system is having race-condition type problems when the browser
       tries to reload immediately after a compile, use this to set a delay
       before the reload signal is sent.
+* __host__: (Default: '0.0.0.0') Server's host address.
+* __forceRepaint__: (Default: false) forcefully repaint the page after stylesheets refresh. Enabled in Chrome by default to mitigate the issue when it doesn't always update styles.
 
 **Example:**
 ```coffeescript
