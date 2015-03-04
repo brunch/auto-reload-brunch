@@ -1,9 +1,10 @@
 var sysPath = require('path');
-var WebSocketServer = (require('ws')).Server;
+var WebSocketServer = require('ws').Server;
 var isWorker = require('cluster').isWorker;
 var isCss = function(file) {
   return sysPath.extname(file.path) === '.css';
 };
+var startingPort = 9485;
 
 function AutoReloader(config) {
   if (config == null) config = {};
@@ -16,7 +17,7 @@ function AutoReloader(config) {
   var ports = [];
 
   if (cfg.port == null) {
-    for (var i = 0; i < 11; i++) ports.push(9485 + i);
+    for (var i = 0; i < 11; i++) ports.push(startingPort + i);
   } else {
     ports = Array.isArray(cfg.port) ? cfg.port.slice() : [cfg.port];
   }
@@ -27,14 +28,12 @@ function AutoReloader(config) {
   this.delay = cfg.delay;
 
   var conns = this.connections = [];
+  var host = cfg.host || '0.0.0.0';
   var port = this.port = ports.shift();
 
   var startServer = (function() {
     this.port = port;
-    var server = this.server = new WebSocketServer({
-      host: '0.0.0.0',
-      port: port
-    });
+    var server = this.server = new WebSocketServer({host: host, port: port});
     server.on('connection', function(conn) {
       conns.push(conn);
       conn.on('close', function() {
@@ -95,12 +94,13 @@ AutoReloader.prototype.onCompile = function(changedFiles) {
       });
   };
 
-  (this.delay) ? setTimeout(sendMessage, this.delay) : sendMessage();
+  this.delay ? setTimeout(sendMessage, this.delay) : sendMessage();
 };
 
-var incPath = sysPath.join(__dirname, 'vendor', 'auto-reload.js');
+var fileName = 'auto-reload.js';
 AutoReloader.prototype.include = function() {
-  return this.enabled ? [incPath] : [];
+  return this.enabled ?
+    [sysPath.join(__dirname, 'vendor', fileName)] : [];
 };
 
 AutoReloader.prototype.teardown = function() {
@@ -108,8 +108,10 @@ AutoReloader.prototype.teardown = function() {
 };
 
 AutoReloader.prototype.compile = function(params, callback) {
-  if (this.enabled && this.port !== 9485 && sysPath.basename(params.path) === 'auto-reload.js') {
-    params.data = params.data.replace(9485, this.port);
+  if (this.enabled &&
+      this.port !== startingPort &&
+      sysPath.basename(params.path) === fileName) {
+    params.data = params.data.replace(startingPort, this.port);
   }
   return callback(null, params);
 };

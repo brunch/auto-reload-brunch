@@ -1,6 +1,6 @@
 {
   "name": "auto-reload-brunch",
-  "version": "1.7.6",
+  "version": "1.7.7",
   "description": "Adds automatic browser reloading support to brunch.",
   "author": {
     "name": "Paul Miller",
@@ -16,7 +16,7 @@
     "test": "node_modules/.bin/mocha"
   },
   "dependencies": {
-    "ws": "~0.4.31"
+    "ws": "~0.7.1"
   },
   "devDependencies": {
     "mocha": "1.11.0",
