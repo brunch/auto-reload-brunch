@@ -33,10 +33,10 @@ function AutoReloader(config) {
   var host = cfg.host || '0.0.0.0';
   var port = this.port = ports.shift();
 
-  if (cfg.sslPath && cfg.certPath) {
+  if (cfg.keyPath && cfg.certPath) {
     this.ssl = true;
     var https = require('https');
-    var key = fs.readFileSync(cfg.sslPath);
+    var key = fs.readFileSync(cfg.keyPath);
     var cert = fs.readFileSync(cfg.certPath);
     if (key && cert) {
       httpServer = https.createServer({key: key, cert: cert}).listen(port);

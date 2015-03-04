@@ -55,6 +55,8 @@ exports.config =
         assets: off
       port: [1234, 2345, 3456]
       delay: 200 if require('os').platform() is 'win32'
+      keyPath: 'path/to/ssl.key'
+      certPath: 'path/to/ssl.crt'
 ```
 
 ### Client-side settings
