@@ -17,7 +17,9 @@ Or, do manual install:
 ## Usage
 In most cases, auto-reload-brunch works out of the box without any further
 configuration. Stylesheet changes will be applied seamlessly, and any other
-changes will trigger a page refresh.
+changes will trigger a page refresh. To prevent a stylesheet from being reloaded
+automatically, set the ```data-autoreload="false"``` attribute on the stylesheet's
+link tag.
 
 ### Brunch plugin settings
 If customization is needed or desired, settings can be modified in your brunch
@@ -41,7 +43,9 @@ config file (such as `brunch-config.coffee`):
       tries to reload immediately after a compile, use this to set a delay
       before the reload signal is sent.
 * __host__: (Default: '0.0.0.0') Server's host address.
-* __forceRepaint__: (Default: false) forcefully repaint the page after stylesheets refresh. Enabled in Chrome by default to mitigate the issue when it doesn't always update styles.
+* __forceRepaint__: (Default: false) forcefully repaint the page after stylesheets
+      refresh. Enabled in Chrome by default to mitigate the issue when it doesn't
+      always update styles.
 
 **Example:**
 ```coffeescript
