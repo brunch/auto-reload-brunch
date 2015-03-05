@@ -42,6 +42,10 @@ config file (such as `brunch-config.coffee`):
       before the reload signal is sent.
 * __host__: (Default: '0.0.0.0') Server's host address.
 * __forceRepaint__: (Default: false) forcefully repaint the page after stylesheets refresh. Enabled in Chrome by default to mitigate the issue when it doesn't always update styles.
+* __keyPath__: Optional, no default.
+  * Path to private key used for SSL.
+* __certPath__: Optional, no default.
+  * Path to public x509 certificate.
 
 **Example:**
 ```coffeescript
@@ -55,6 +59,8 @@ exports.config =
         assets: off
       port: [1234, 2345, 3456]
       delay: 200 if require('os').platform() is 'win32'
+      keyPath: 'path/to/ssl.key'
+      certPath: 'path/to/ssl.crt'
 ```
 
 ### Client-side settings
