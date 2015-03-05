@@ -20,7 +20,7 @@
 
     stylesheet: function(){
       [].slice
-        .call(document.querySelectorAll('link[rel="stylesheet"][href]:not([autoreload="false"]'))
+        .call(document.querySelectorAll('link[rel="stylesheet"][href]:not([data-autoreload="false"]'))
         .forEach(function(link) {
           link.href = cacheBuster(link.href);
         });
