@@ -8,7 +8,6 @@ var isCss = function(file) {
 var startingPort = 9485;
 
 function AutoReloader(config) {
-  var httpServer;
   if (config == null) config = {};
   this.config = config;
   if (config.autoReload) {
@@ -39,13 +38,13 @@ function AutoReloader(config) {
     var key = fs.readFileSync(cfg.keyPath);
     var cert = fs.readFileSync(cfg.certPath);
     if (key && cert) {
-      httpServer = https.createServer({key: key, cert: cert}).listen(port);
+      this.httpsServer = https.createServer({key: key, cert: cert}).listen(port, host);
     }
   }
 
   var startServer = (function() {
     this.port = port;
-    var args = httpServer ? {server: httpServer} : {host: host, port: port}
+    var args = this.httpsServer ? {server: this.httpsServer} : {host: host, port: port}
     var server = this.server = new WebSocketServer(args);
     server.on('connection', function(conn) {
       conns.push(conn);
@@ -118,6 +117,7 @@ AutoReloader.prototype.include = function() {
 
 AutoReloader.prototype.teardown = function() {
   if (this.server) this.server.close();
+  if (this.httpsServer) this.httpsServer.close();
 };
 
 AutoReloader.prototype.compile = function(params, callback) {
