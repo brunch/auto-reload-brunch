@@ -1,4 +1,6 @@
 var sysPath = require('path');
+var fs = require('fs');
+var https = require('https');
 var WebSocketServer = require('ws').Server;
 var isWorker = require('cluster').isWorker;
 var isCss = function(file) {
@@ -31,9 +33,20 @@ function AutoReloader(config) {
   var host = cfg.host || '0.0.0.0';
   var port = this.port = ports.shift();
 
+  var key, cert;
+  if (cfg.keyPath && cfg.certPath) {
+    this.ssl = true;
+    key = fs.readFileSync(cfg.keyPath);
+    cert = fs.readFileSync(cfg.certPath);
+    if (key && cert) {
+      this.httpsServer = https.createServer({key: key, cert: cert}).listen(port, host);
+    }
+  }
+
   var startServer = (function() {
     this.port = port;
-    var server = this.server = new WebSocketServer({host: host, port: port});
+    var args = this.httpsServer ? {server: this.httpsServer} : {host: host, port: port}
+    var server = this.server = new WebSocketServer(args);
     server.on('connection', function(conn) {
       conns.push(conn);
       conn.on('close', function() {
@@ -105,6 +118,7 @@ AutoReloader.prototype.include = function() {
 
 AutoReloader.prototype.teardown = function() {
   if (this.server) this.server.close();
+  if (this.httpsServer) this.httpsServer.close();
 };
 
 AutoReloader.prototype.compile = function(params, callback) {
@@ -112,6 +126,9 @@ AutoReloader.prototype.compile = function(params, callback) {
       this.port !== startingPort &&
       sysPath.basename(params.path) === fileName) {
     params.data = params.data.replace(startingPort, this.port);
+  }
+  if (this.enabled && this.ssl) {
+    params.data = params.data.replace('ws://', 'wss://');
   }
   return callback(null, params);
 };
