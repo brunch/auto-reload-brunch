@@ -1,3 +1,7 @@
+# auto-reload-brunch 1.7.8 (5 March 2015)
+* Added support for wss. Specify your SSL cert like this: `keyPath` and `certPath`
+* Added support for `data-autoreload=false` on `<link>` stylesheets.
+
 # auto-reload-brunch 1.7.7 (4 March 2015)
 * Updated `ws` to 0.7.
 * Added `host` option.
