@@ -1,3 +1,6 @@
+# auto-reload-brunch 1.8.0 (5 June 2015)
+* Fixed invalid CSS selector.
+
 # auto-reload-brunch 1.7.8 (5 March 2015)
 * Added support for wss. Specify your SSL cert like this: `keyPath` and `certPath`
 * Added support for `data-autoreload=false` on `<link>` stylesheets.
