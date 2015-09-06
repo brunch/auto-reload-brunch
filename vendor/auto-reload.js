@@ -1,3 +1,4 @@
+/* jshint ignore:start */
 (function() {
   var WebSocket = window.WebSocket || window.MozWebSocket;
   var br = window.brunch = (window.brunch || {});
@@ -53,3 +54,4 @@
   };
   connect();
 })();
+/* jshint ignore:end */
