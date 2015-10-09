@@ -1,4 +1,6 @@
 ## auto-reload-brunch
+
+[![Join the chat at https://gitter.im/brunch/auto-reload-brunch](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/brunch/auto-reload-brunch?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 Adds automatic browser reloading support to
 [brunch](http://brunch.io) when using the `brunch watch` command.
 
@@ -17,7 +19,9 @@ Or, do manual install:
 ## Usage
 In most cases, auto-reload-brunch works out of the box without any further
 configuration. Stylesheet changes will be applied seamlessly, and any other
-changes will trigger a page refresh.
+changes will trigger a page refresh. To prevent a stylesheet from being reloaded
+automatically, set the ```data-autoreload="false"``` attribute on the stylesheet's
+link tag.
 
 ### Brunch plugin settings
 If customization is needed or desired, settings can be modified in your brunch
@@ -41,7 +45,9 @@ config file (such as `brunch-config.coffee`):
       tries to reload immediately after a compile, use this to set a delay
       before the reload signal is sent.
 * __host__: (Default: '0.0.0.0') Server's host address.
-* __forceRepaint__: (Default: false) forcefully repaint the page after stylesheets refresh. Enabled in Chrome by default to mitigate the issue when it doesn't always update styles.
+* __forceRepaint__: (Default: false) forcefully repaint the page after stylesheets
+      refresh. Enabled in Chrome by default to mitigate the issue when it doesn't
+      always update styles.
 * __keyPath__: Optional, no default.
   * Path to private key used for SSL.
 * __certPath__: Optional, no default.
@@ -51,6 +57,7 @@ config file (such as `brunch-config.coffee`):
 ```coffeescript
 exports.config =
   ...
+  # Every setting is optional.
   plugins:
     autoReload:
       enabled:
