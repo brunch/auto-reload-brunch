@@ -1,3 +1,6 @@
+# auto-reload-brunch 1.8.1 (5 June 2015)
+* Updated ws dependency to 0.8.0
+
 # auto-reload-brunch 1.8.0 (5 June 2015)
 * Fixed invalid CSS selector.
 
