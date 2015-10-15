@@ -7,7 +7,12 @@
     "url": "http://paulmillr.com/"
   },
   "homepage": "https://github.com/brunch/auto-reload-brunch",
-  "keywords": ["brunchplugin", "auto-reload", "websocket", "auto reload"],
+  "keywords": [
+    "brunchplugin",
+    "auto-reload",
+    "websocket",
+    "auto reload"
+  ],
   "repository": {
     "type": "git",
     "url": "git@github.com:brunch/auto-reload-brunch.git"
@@ -16,7 +21,7 @@
     "test": "node_modules/.bin/mocha"
   },
   "dependencies": {
-    "ws": "~0.7.1"
+    "ws": "^0.8.0"
   },
   "devDependencies": {
     "mocha": "1.11.0",
