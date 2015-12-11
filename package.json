@@ -18,7 +18,7 @@
     "url": "git@github.com:brunch/auto-reload-brunch.git"
   },
   "scripts": {
-    "test": "node_modules/.bin/mocha"
+    "test": "node_modules/.bin/mocha test"
   },
   "dependencies": {
     "ws": "^0.8.0"
