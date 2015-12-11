@@ -35,25 +35,26 @@ function AutoReloader(config) {
 
   var key, cert;
   if (cfg.keyPath && cfg.certPath) {
-    this.ssl = true;
     key = fs.readFileSync(cfg.keyPath);
     cert = fs.readFileSync(cfg.certPath);
-    if (key && cert) {
-      this.httpsServer = https.createServer({key: key, cert: cert}).listen(port, host);
-    }
+    this.ssl = !!(key && cert);
   }
 
   var startServer = (function() {
-    this.port = port;
-    var args = this.httpsServer ? {server: this.httpsServer} : {host: host, port: port}
-    var server = this.server = new WebSocketServer(args);
-    server.on('connection', function(conn) {
+    if (this.ssl) {
+      this.httpsServer = https.createServer({key: key, cert: cert});
+      this.httpsServer.listen(port, host);
+      this.server = new WebSocketServer({server: this.httpsServer});
+    } else {
+      this.server = new WebSocketServer({host: host, port: port});
+    }
+    this.server.on('connection', function(conn) {
       conns.push(conn);
       conn.on('close', function() {
         conns.splice(conn, 1);
       });
     });
-    server.on('error', function(error) {
+    this.server.on('error', function(error) {
       if (error.toString().match(/EADDRINUSE/)) {
         if (ports.length) {
           port = ports.shift();
