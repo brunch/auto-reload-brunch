@@ -1,137 +1,139 @@
-var sysPath = require('path');
-var fs = require('fs');
-var https = require('https');
-var WebSocketServer = require('ws').Server;
-var isWorker = require('cluster').isWorker;
-var isCss = function(file) {
-  return sysPath.extname(file.path) === '.css';
-};
-var startingPort = 9485;
+'use strict';
 
-function AutoReloader(config) {
-  if (config == null) config = {};
-  this.config = config;
-  if (config.autoReload) {
-    throw new Error('Warning: config.autoReload is no longer supported, please move it to config.plugins.autoReload');
+const sysPath = require('path');
+const fs = require('fs');
+const https = require('https');
+const WebSocketServer = require('ws').Server;
+const isWorker = require('cluster').isWorker;
+
+const isCss = file => sysPath.extname(file.path) === '.css';
+
+const startingPort = 9485;
+const portTryPool = 10;
+const fileName = 'auto-reload.js';
+
+class AutoReloader {
+  constructor(config) {
+    if (config == null) config = {};
+    if (config.autoReload) {
+      throw new Error('Warning: config.autoReload is no longer supported, please move it to config.plugins.autoReload');
+    }
+    const cfg = this.config = config.plugins && config.plugins.autoReload || {};
+
+    if (cfg.port == null) {
+      this.ports = [];
+      for (var i = 0; i <= portTryPool; i++) this.ports.push(startingPort + i);
+    } else {
+      this.ports = Array.isArray(cfg.port) ? cfg.port.slice() : [cfg.port];
+    }
+
+    if (config.persistent) {
+      this.enabled = (cfg.enabled == null) ? true : cfg.enabled;
+    }
+    this.delay = cfg.delay;
+
+    this.connections = [];
+    this.port = this.ports.shift();
+
+    if (cfg.keyPath && cfg.certPath) {
+      this.key = fs.readFileSync(cfg.keyPath);
+      this.cert = fs.readFileSync(cfg.certPath);
+      this.ssl = !!(this.key && this.cert);
+    }
+
+    if (this.enabled && !isWorker) this.startServer();
   }
-  var plugins = config.plugins || {};
-  var cfg = plugins.autoReload || {};
-  var ports = [];
 
-  if (cfg.port == null) {
-    for (var i = 0; i < 11; i++) ports.push(startingPort + i);
-  } else {
-    ports = Array.isArray(cfg.port) ? cfg.port.slice() : [cfg.port];
-  }
+  startServer() {
+    const conns = this.connections;
+    const cfg = this.config;
+    const host = cfg.host || '0.0.0.0';
+    const port = this.port;
 
-  if (this.config.persistent) {
-    this.enabled = (cfg.enabled == null) ? true : cfg.enabled;
-  }
-  this.delay = cfg.delay;
-
-  var conns = this.connections = [];
-  var host = cfg.host || '0.0.0.0';
-  var port = this.port = ports.shift();
-
-  var key, cert;
-  if (cfg.keyPath && cfg.certPath) {
-    key = fs.readFileSync(cfg.keyPath);
-    cert = fs.readFileSync(cfg.certPath);
-    this.ssl = !!(key && cert);
-  }
-
-  var startServer = (function() {
     if (this.ssl) {
-      this.httpsServer = https.createServer({key: key, cert: cert});
+      this.httpsServer = https.createServer({key: this.key, cert: this.cert});
       this.httpsServer.listen(port, host);
       this.server = new WebSocketServer({server: this.httpsServer});
     } else {
       this.server = new WebSocketServer({host: host, port: port});
     }
-    this.server.on('connection', function(conn) {
+    this.server.on('connection', conn => {
       conns.push(conn);
-      conn.on('close', function() {
-        conns.splice(conn, 1);
-      });
+      conn.on('close', () => conns.splice(conn, 1));
     });
-    this.server.on('error', function(error) {
+    this.server.on('error', error => {
       if (error.toString().match(/EADDRINUSE/)) {
-        if (ports.length) {
-          port = ports.shift();
-          startServer();
+        if (this.ports.length) {
+          this.port = this.ports.shift();
+          this.startServer();
         } else {
-          error = "cannot start because port " + port + " is in use";
+          error = `cannot start because port ${port} is in use`;
         }
       }
-      // console.error("AutoReload " + error);
     });
-  }).bind(this);
+  }
 
-  if (this.enabled && !isWorker) startServer();
+  onCompile(changedFiles) {
+    const enabled = this.enabled;
+    const conns = this.connections;
+    if (!enabled) return;
+
+    const didCompile = changedFiles.length > 0;
+    const allCss = didCompile && changedFiles.every(isCss);
+
+    if (toString.call(enabled) === '[object Object]') {
+      if (!(didCompile || enabled.assets)) return;
+      if (allCss) {
+        if (!enabled.css) return;
+      } else if (didCompile) {
+        const changedExts = changedFiles.map(x => sysPath.extname(x.path).slice(1));
+        const wasChanged = !Object.keys(enabled).some(k => enabled[k] && changedExts.indexOf(k) !== -1);
+        if (wasChanged) return;
+      }
+    }
+
+    const message = allCss ? 'stylesheet' : 'page';
+    const sendMessage = () => {
+      conns
+        .filter(connection => connection.readyState === 1)
+        .forEach(connection => connection.send(message));
+    };
+
+    if (this.delay) {
+      setTimeout(sendMessage, this.delay);
+    } else {
+      sendMessage();
+    }
+  }
+
+  include() {
+    return this.enabled ?
+      [sysPath.join(__dirname, 'vendor', fileName)] : [];
+  }
+
+  teardown() {
+    if (this.server) this.server.close();
+    if (this.httpsServer) this.httpsServer.close();
+  }
+
+  compile(params) {
+    let finalData = params.data;
+
+    if (this.enabled &&
+        this.port !== startingPort &&
+        sysPath.basename(params.path) === fileName) {
+      finalData = finalData.replace(startingPort, this.port);
+    }
+    if (this.enabled && this.ssl) {
+      finalData = finalData.replace('ws://', 'wss://');
+    }
+
+    return Promise.resolve(finalData);
+  }
 }
 
 AutoReloader.prototype.brunchPlugin = true;
 AutoReloader.prototype.type = 'javascript';
 AutoReloader.prototype.extension = 'js';
 
-AutoReloader.prototype.onCompile = function(changedFiles) {
-  var enabled = this.enabled;
-  var conns = this.connections;
-  if (!enabled) return;
-
-  var didCompile = changedFiles.length > 0;
-  var allCss = didCompile && changedFiles.every(isCss);
-
-  if (toString.call(enabled) === '[object Object]') {
-    if (!(didCompile || enabled.assets)) return;
-    if (allCss) {
-      if (!enabled.css) return;
-    } else if (didCompile) {
-      var changedExts = changedFiles.map(function(_) {
-        return sysPath.extname(_.path).slice(1);
-      });
-      var wasChanged = !Object.keys(enabled).some(function(_) {
-        return enabled[_] && changedExts.indexOf(_) !== -1;
-      });
-      if (wasChanged) return;
-    }
-  }
-
-  var message = allCss ? 'stylesheet' : 'page';
-  var sendMessage = function() {
-    conns
-      .filter(function(connection) {
-        return connection.readyState === 1;
-      })
-      .forEach(function(connection) {
-        return connection.send(message);
-      });
-  };
-
-  this.delay ? setTimeout(sendMessage, this.delay) : sendMessage();
-};
-
-var fileName = 'auto-reload.js';
-AutoReloader.prototype.include = function() {
-  return this.enabled ?
-    [sysPath.join(__dirname, 'vendor', fileName)] : [];
-};
-
-AutoReloader.prototype.teardown = function() {
-  if (this.server) this.server.close();
-  if (this.httpsServer) this.httpsServer.close();
-};
-
-AutoReloader.prototype.compile = function(params, callback) {
-  if (this.enabled &&
-      this.port !== startingPort &&
-      sysPath.basename(params.path) === fileName) {
-    params.data = params.data.replace(startingPort, this.port);
-  }
-  if (this.enabled && this.ssl) {
-    params.data = params.data.replace('ws://', 'wss://');
-  }
-  return callback(null, params);
-};
-
-module.exports = AutoReloader
+module.exports = AutoReloader;
