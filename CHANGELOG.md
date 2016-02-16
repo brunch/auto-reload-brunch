@@ -1,3 +1,6 @@
+# auto-reload-brunch 2.0.0 (Jan 29, 2016)
+* Updated source code & API. The plugin would now only work with Brunch 2.2 and higher.
+
 # auto-reload-brunch 1.8.1 (15 October 2015)
 * Updated ws dependency to 0.8.0
 
