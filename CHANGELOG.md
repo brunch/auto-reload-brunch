@@ -1,3 +1,6 @@
+# auto-reload-brunch `<unreleased>`
+* Introduce experimental live JS reload functionality. See README for more details and caveats.
+
 # auto-reload-brunch 2.0.0 (Jan 29, 2016)
 * Updated source code & API. The plugin would now only work with Brunch 2.2 and higher.
 
