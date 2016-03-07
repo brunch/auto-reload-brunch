@@ -7,6 +7,8 @@ const WebSocketServer = require('ws').Server;
 const isWorker = require('cluster').isWorker;
 
 const isCss = file => sysPath.extname(file.path) === '.css';
+const isJs = file => sysPath.extname(file.path) === '.js';
+const isJsOrCss = file => isJs(file) || isCss(file);
 
 const startingPort = 9485;
 const portTryPool = 10;
@@ -30,6 +32,7 @@ class AutoReloader {
     if (config.persistent) {
       this.enabled = (cfg.enabled == null) ? true : cfg.enabled;
     }
+    this.liveJs = cfg.liveJs;
     this.delay = cfg.delay;
 
     this.connections = [];
@@ -80,6 +83,8 @@ class AutoReloader {
 
     const didCompile = changedFiles.length > 0;
     const allCss = didCompile && changedFiles.every(isCss);
+    const allJs = this.liveJs && didCompile && changedFiles.every(isJs);
+    const allJsOrCss = this.liveJs && didCompile && changedFiles.every(isJsOrCss);
 
     if (toString.call(enabled) === '[object Object]') {
       if (!(didCompile || enabled.assets)) return;
@@ -92,11 +97,14 @@ class AutoReloader {
       }
     }
 
-    const message = allCss ? 'stylesheet' : 'page';
+    const messages = [];
+    if (allJs || allJsOrCss) messages.push('javascript');
+    if (allCss || allJsOrCss) messages.push('stylesheet');
+    if (messages.length === 0) messages.push('page');
     const sendMessage = () => {
       conns
         .filter(connection => connection.readyState === 1)
-        .forEach(connection => connection.send(message));
+        .forEach(connection => messages.forEach(message => connection.send(message)));
     };
 
     if (this.delay) {

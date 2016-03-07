@@ -32,6 +32,33 @@
 
       // Hack to force page repaint after 25ms.
       if (forceRepaint) setTimeout(function() { document.body.offsetHeight; }, 25);
+    },
+
+    javascript: function(){
+      var scripts = [].slice.call(document.querySelectorAll('script'));
+      var textScripts = scripts.map(function(script) { return script.text }).filter(function(text) { return text.length > 0 });
+      var srcScripts = scripts.filter(function(script) { return script.src });
+
+      var loaded = 0;
+      var all = srcScripts.length;
+      var onLoad = function() {
+        loaded = loaded + 1;
+        if (loaded === all) {
+          if (typeof require === 'object' && require.reset) require.reset();
+          textScripts.forEach(function(script) { eval(script); });
+        }
+      }
+
+      srcScripts
+        .forEach(function(script) {
+          var src = script.src;
+          script.remove();
+          var newScript = document.createElement('script');
+          newScript.src = cacheBuster(src);
+          newScript.async = true;
+          newScript.onload = onLoad;
+          document.head.appendChild(newScript);
+        });
     }
   };
   var port = ar.port || 9485;
