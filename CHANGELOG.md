@@ -1,4 +1,4 @@
-# auto-reload-brunch `<unreleased>`
+# auto-reload-brunch 2.1.0 (Mar 7, 2016)
 * Introduce experimental live JS reload functionality. See README for more details and caveats.
 
 # auto-reload-brunch 2.0.0 (Jan 29, 2016)
