@@ -121,6 +121,26 @@ if (!window.store) {
 
 *(https://github.com/goshakkk/brunch-livejs-reload-stage1)*
 
+### Custom file extensions
+
+Starting `<unreleased>`, you can configure what extensions count as stylesheet and javascript reloads. By default, any compile file with an extension other than `.css` or `.js` will do a full page reload. The `match` option allows you to issue efficient stylesheet-only reloads for other file extensions as well.
+
+The value of `match.stylesheets` and `match.javascripts` is an [anymatch](https://www.npmjs.com/package/anymatch) set, and so can be a wildcard, regexp, function, or an array thereof.
+
+```javascript
+module.exports = {
+  ...
+  plugins: {
+    autoReload: {
+      match: {
+        stylesheets: ['*.css', '*.jpg', '*.png'],
+        javascripts: ['*.js']
+      }
+    }
+  }
+};
+```
+
 ## License
 
 The MIT License (MIT)

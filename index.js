@@ -5,10 +5,7 @@ const fs = require('fs');
 const https = require('https');
 const WebSocketServer = require('ws').Server;
 const isWorker = require('cluster').isWorker;
-
-const isCss = file => sysPath.extname(file.path) === '.css';
-const isJs = file => sysPath.extname(file.path) === '.js';
-const isJsOrCss = file => isJs(file) || isCss(file);
+const anymatch = require('anymatch');
 
 const startingPort = 9485;
 const portTryPool = 10;
@@ -34,6 +31,8 @@ class AutoReloader {
     }
     this.liveJs = cfg.liveJs;
     this.delay = cfg.delay;
+    this.cssMatch = cfg.match && cfg.match.stylesheets || '*.css';
+    this.jsMatch = cfg.match && cfg.match.javascripts || '*.js';
 
     this.connections = [];
     this.port = this.ports.shift();
@@ -82,6 +81,10 @@ class AutoReloader {
     if (!enabled) return;
 
     const didCompile = changedFiles.length > 0;
+    const isCss = file => anymatch(this.cssMatch, file.path);
+    const isJs = file => anymatch(this.jsMatch, file.path);
+    const isJsOrCss = file => isJs(file) || isCss(file);
+
     const allCss = didCompile && changedFiles.every(isCss);
     const allJs = this.liveJs && didCompile && changedFiles.every(isJs);
     const allJsOrCss = this.liveJs && didCompile && changedFiles.every(isJsOrCss);
