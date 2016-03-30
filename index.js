@@ -31,8 +31,8 @@ class AutoReloader {
     }
     this.liveJs = cfg.liveJs;
     this.delay = cfg.delay;
-    this.cssMatch = cfg.match && cfg.match.css || '*.css';
-    this.jsMatch = cfg.match && cfg.match.js || '*.js';
+    this.cssMatch = cfg.match && cfg.match.stylesheets || '*.css';
+    this.jsMatch = cfg.match && cfg.match.javascripts || '*.js';
 
     this.connections = [];
     this.port = this.ports.shift();

@@ -76,17 +76,17 @@ describe('Plugin', function() {
       expect(messages).to.eql([ 'page' ]);
     });
 
-    it('honors match.css', function() {
+    it('honors match.stylesheets', function() {
       var messages = [];
-      var plugin = this.subject({ match: { css: '*.scss' } });
+      var plugin = this.subject({ match: { stylesheets: '*.scss' } });
       plugin.connections = [ mockConnection(msg => messages.push(msg)) ];
       plugin.onCompile([ { path: 'abc.scss' } ]);
       expect(messages).to.eql([ 'stylesheet' ]);
     });
 
-    it('honors match.js', function() {
+    it('honors match.javascripts', function() {
       var messages = [];
-      var plugin = this.subject({ match: { js: '*.jsx' }, liveJs: true });
+      var plugin = this.subject({ match: { javascripts: '*.jsx' }, liveJs: true });
       plugin.connections = [ mockConnection(msg => messages.push(msg)) ];
       plugin.onCompile([ { path: 'abc.jsx' } ]);
       expect(messages).to.eql([ 'javascript', 'stylesheet' ]);
