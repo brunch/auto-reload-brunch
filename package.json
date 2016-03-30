@@ -21,6 +21,7 @@
     "test": "node_modules/.bin/eslint index.js && node_modules/.bin/mocha test"
   },
   "dependencies": {
+    "anymatch": "1.3.0",
     "ws": "~0.8.0"
   },
   "devDependencies": {
