@@ -50,4 +50,50 @@ describe('Plugin', function() {
       });
     });
   });
+
+  describe('with match option', function () {
+    it('matches "stylesheet" by default', function() {
+      var messages = [];
+      var plugin = this.subject();
+      plugin.connections = [ mockConnection(msg => messages.push(msg)) ];
+      plugin.onCompile([ { path: 'abc.css' } ]);
+      expect(messages).to.eql([ 'stylesheet' ]);
+    });
+
+    it('matches "javascript" by default', function() {
+      var messages = [];
+      var plugin = this.subject({ liveJs: true });
+      plugin.connections = [ mockConnection(msg => messages.push(msg)) ];
+      plugin.onCompile([ { path: 'abc.js' } ]);
+      expect(messages).to.eql([ 'javascript', 'stylesheet' ]);
+    });
+
+    it('matches "page" for unknowns', function() {
+      var messages = [];
+      var plugin = this.subject();
+      plugin.connections = [ mockConnection(msg => messages.push(msg)) ];
+      plugin.onCompile([ { path: 'abc.xyz' } ]);
+      expect(messages).to.eql([ 'page' ]);
+    });
+
+    it('honors match.css', function() {
+      var messages = [];
+      var plugin = this.subject({ match: { css: '*.scss' } });
+      plugin.connections = [ mockConnection(msg => messages.push(msg)) ];
+      plugin.onCompile([ { path: 'abc.scss' } ]);
+      expect(messages).to.eql([ 'stylesheet' ]);
+    });
+
+    it('honors match.js', function() {
+      var messages = [];
+      var plugin = this.subject({ match: { js: '*.jsx' }, liveJs: true });
+      plugin.connections = [ mockConnection(msg => messages.push(msg)) ];
+      plugin.onCompile([ { path: 'abc.jsx' } ]);
+      expect(messages).to.eql([ 'javascript', 'stylesheet' ]);
+    });
+
+    function mockConnection (fn) {
+      return { readyState: 1, send: fn };
+    }
+  });
 });
