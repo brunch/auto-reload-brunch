@@ -56,7 +56,7 @@ describe('Plugin', function() {
       var messages = [];
       var plugin = this.subject();
       plugin.connections = [ mockConnection(msg => messages.push(msg)) ];
-      plugin.onCompile([ { path: 'abc.css' } ]);
+      plugin.onCompile([ { path: 'public/abc.css' } ]);
       expect(messages).to.eql([ 'stylesheet' ]);
     });
 
@@ -64,7 +64,7 @@ describe('Plugin', function() {
       var messages = [];
       var plugin = this.subject({ liveJs: true });
       plugin.connections = [ mockConnection(msg => messages.push(msg)) ];
-      plugin.onCompile([ { path: 'abc.js' } ]);
+      plugin.onCompile([ { path: 'public/abc.js' } ]);
       expect(messages).to.eql([ 'javascript', 'stylesheet' ]);
     });
 
@@ -72,23 +72,23 @@ describe('Plugin', function() {
       var messages = [];
       var plugin = this.subject();
       plugin.connections = [ mockConnection(msg => messages.push(msg)) ];
-      plugin.onCompile([ { path: 'abc.xyz' } ]);
+      plugin.onCompile([ { path: 'public/abc.xyz' } ]);
       expect(messages).to.eql([ 'page' ]);
     });
 
     it('honors match.stylesheets', function() {
       var messages = [];
-      var plugin = this.subject({ match: { stylesheets: '*.scss' } });
+      var plugin = this.subject({ match: { stylesheets: /.scss$/ } });
       plugin.connections = [ mockConnection(msg => messages.push(msg)) ];
-      plugin.onCompile([ { path: 'abc.scss' } ]);
+      plugin.onCompile([ { path: 'public/abc.scss' } ]);
       expect(messages).to.eql([ 'stylesheet' ]);
     });
 
     it('honors match.javascripts', function() {
       var messages = [];
-      var plugin = this.subject({ match: { javascripts: '*.jsx' }, liveJs: true });
+      var plugin = this.subject({ match: { javascripts: /.jsx$/ }, liveJs: true });
       plugin.connections = [ mockConnection(msg => messages.push(msg)) ];
-      plugin.onCompile([ { path: 'abc.jsx' } ]);
+      plugin.onCompile([ { path: 'public/abc.jsx' } ]);
       expect(messages).to.eql([ 'javascript', 'stylesheet' ]);
     });
 
