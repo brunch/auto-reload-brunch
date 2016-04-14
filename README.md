@@ -50,7 +50,6 @@ config file (such as `brunch-config.coffee`):
   * Path to private key used for SSL.
 * __certPath__: Optional, no default.
   * Path to public x509 certificate.
-* __liveJs__: An experimental option to live-reload JS. See the section below on more details.
 
 **Example:**
 ```coffeescript
@@ -89,37 +88,6 @@ brunch config for this:
 window.brunch['auto-reload'].port = 1234
 window.brunch['auto-reload'].disabled = true;
 ```
-
-### Live JS reload
-
-Starting `<unreleased>`, auto-reload-brunch can try to reload JS without reloading the page. For that to work, you need to be using CommonJS modules with Brunch `<unreleased>`, or if you don't use modules, with any Brunch 2 version.
-
-To enable it, set `plugins.autoReload.liveJs` to `true` in your config:
-
-```javascript
-module.exports = {
-  ...
-  plugins: {
-    autoReload: {
-      liveJs: true
-    }
-  }
-};
-```
-
-It works by loading your updated scripts. Without proper handling this can break your app due to state stored in your modules.
-
-Until Hot Module Replacement is implemented by Brunch (and it is a complex API, but [a discussion is open](https://github.com/brunch/brunch/issues/1097)), that means using a global to store the state that needs to be transferred to the updated module, however "bad practice" that might seem. For example, if you are using React with Redux, you'll probably want to save your store globally, and upon module update, replace the reducers with the newer ones:
-
-```javascript
-if (!window.store) {
-  window.store = createStore(counterApp, 0);
-} else {
-  window.store.replaceReducer(counterApp);
-}
-```
-
-*(https://github.com/goshakkk/brunch-livejs-reload-stage1)*
 
 ### Custom file extensions
 
