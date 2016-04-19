@@ -44,7 +44,6 @@
       var onLoad = function() {
         loaded = loaded + 1;
         if (loaded === all) {
-          if (typeof require === 'object' && require.reset) require.reset();
           textScripts.forEach(function(script) { eval(script); });
         }
       }

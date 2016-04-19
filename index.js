@@ -29,7 +29,7 @@ class AutoReloader {
     if (config.persistent) {
       this.enabled = (cfg.enabled == null) ? true : cfg.enabled;
     }
-    this.liveJs = cfg.liveJs;
+    this.hot = config.hot;
     this.delay = cfg.delay;
     this.cssMatch = cfg.match && cfg.match.stylesheets || /.css$/;
     this.jsMatch = cfg.match && cfg.match.javascripts || /.js$/;
@@ -86,8 +86,8 @@ class AutoReloader {
     const isJsOrCss = file => isJs(file) || isCss(file);
 
     const allCss = didCompile && changedFiles.every(isCss);
-    const allJs = this.liveJs && didCompile && changedFiles.every(isJs);
-    const allJsOrCss = this.liveJs && didCompile && changedFiles.every(isJsOrCss);
+    const allJs = this.hot && didCompile && changedFiles.every(isJs);
+    const allJsOrCss = this.hot && didCompile && changedFiles.every(isJsOrCss);
 
     if (toString.call(enabled) === '[object Object]') {
       if (!(didCompile || enabled.assets)) return;
@@ -142,6 +142,8 @@ class AutoReloader {
     return Promise.resolve(finalData);
   }
 }
+
+AutoReloader.prototype.supportsHMR = true;
 
 AutoReloader.prototype.brunchPlugin = true;
 AutoReloader.prototype.type = 'javascript';

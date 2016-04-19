@@ -8,7 +8,7 @@ describe('Plugin', function() {
 
   beforeEach(function() {
     this.subject = function(config) {
-      return new Plugin({ persistent: true, plugins: { autoReload: config || {} } })
+      return new Plugin({ persistent: true, hot: config && config.hot, plugins: { autoReload: config || {} } })
     };
   });
 
@@ -62,7 +62,7 @@ describe('Plugin', function() {
 
     it('matches "javascript" by default', function() {
       var messages = [];
-      var plugin = this.subject({ liveJs: true });
+      var plugin = this.subject({ hot: true });
       plugin.connections = [ mockConnection(msg => messages.push(msg)) ];
       plugin.onCompile([ { path: 'public/abc.js' } ]);
       expect(messages).to.eql([ 'javascript', 'stylesheet' ]);
@@ -86,7 +86,7 @@ describe('Plugin', function() {
 
     it('honors match.javascripts', function() {
       var messages = [];
-      var plugin = this.subject({ match: { javascripts: /.jsx$/ }, liveJs: true });
+      var plugin = this.subject({ match: { javascripts: /.jsx$/ }, hot: true });
       plugin.connections = [ mockConnection(msg => messages.push(msg)) ];
       plugin.onCompile([ { path: 'public/abc.jsx' } ]);
       expect(messages).to.eql([ 'javascript', 'stylesheet' ]);
