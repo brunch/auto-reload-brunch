@@ -4,6 +4,8 @@
   var br = window.brunch = (window.brunch || {});
   var ar = br['auto-reload'] = (br['auto-reload'] || {});
   if (!WebSocket || ar.disabled) return;
+  if (window._ar) return;
+  window._ar = true;
 
   var cacheBuster = function(url){
     var date = Math.round(Date.now() / 1000).toString();
