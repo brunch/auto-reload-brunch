@@ -135,7 +135,8 @@ class AutoReloader {
         sysPath.basename(params.path) === fileName) {
       finalData = finalData.replace(startingPort, this.port);
     }
-    if (this.enabled && this.ssl) {
+    if (this.enabled && this.ssl &&
+        sysPath.basename(params.path) === fileName) {
       finalData = finalData.replace('ws://', 'wss://');
     }
 
