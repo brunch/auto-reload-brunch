@@ -50,6 +50,8 @@ config file (such as `brunch-config.coffee`):
   * Path to private key used for SSL.
 * __certPath__: Optional, no default.
   * Path to public x509 certificate.
+* __forcewss__: Optional, no default.
+  * make the client always use `wss://` instead of `ws://`.
 
 **Example:**
 ```coffeescript
@@ -66,6 +68,7 @@ exports.config =
       delay: 200 if require('os').platform() is 'win32'
       keyPath: 'path/to/ssl.key'
       certPath: 'path/to/ssl.crt'
+      forcewss: true
 ```
 
 ### Client-side settings
