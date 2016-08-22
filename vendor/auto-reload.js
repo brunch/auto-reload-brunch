@@ -63,7 +63,7 @@
     }
   };
   var port = ar.port || 9485;
-  var host = br.server || window.location.hostname || 'localhost';
+  var host = ar.host || br.server || window.location.hostname || 'localhost';
 
   var connect = function(){
     var connection = new WebSocket('ws://' + host + ':' + port);
