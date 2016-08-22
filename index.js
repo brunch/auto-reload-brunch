@@ -33,6 +33,7 @@ class AutoReloader {
     this.delay = cfg.delay;
     this.cssMatch = cfg.match && cfg.match.stylesheets || /.css$/;
     this.jsMatch = cfg.match && cfg.match.javascripts || /.js$/;
+    this.forcewss = !!(config.plugins.autoReload.forcewss);
 
     this.connections = [];
     this.port = this.ports.shift();
@@ -135,7 +136,7 @@ class AutoReloader {
         sysPath.basename(params.path) === fileName) {
       finalData = finalData.replace(startingPort, this.port);
     }
-    if (this.enabled && this.ssl &&
+    if (this.enabled && (this.forcewss || this.ssl) &&
         sysPath.basename(params.path) === fileName) {
       finalData = finalData.replace('ws://', 'wss://');
     }
