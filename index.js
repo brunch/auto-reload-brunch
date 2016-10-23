@@ -128,12 +128,12 @@ class AutoReloader {
     if (this.httpsServer) this.httpsServer.close();
   }
 
-  compile(params) {
-    let finalData = params.data;
+  compile(file) {
+    let finalData = file.data;
 
     if (this.enabled &&
         this.port !== startingPort &&
-        sysPath.basename(params.path) === fileName) {
+        sysPath.basename(file.path) === fileName) {
       finalData = finalData.replace(startingPort, this.port);
     }
     if (this.enabled && (this.forcewss || this.ssl) &&
