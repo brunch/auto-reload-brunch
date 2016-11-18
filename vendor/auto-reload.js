@@ -38,17 +38,29 @@
 
     javascript: function(){
       var scripts = [].slice.call(document.querySelectorAll('script'));
-      var textScripts = scripts.map(function(script) { return script.text }).filter(function(text) { return text.length > 0 });
-      var srcScripts = scripts.filter(function(script) { return script.src });
+      var anyWhitelisted = scripts
+          .filter(function(script) { return script.dataset.autoreload; });
+
+      var wlfilter = function(script) { return anyWhitelisted ? script.dataset.autoreload : true; };
+
+      var textScripts = scripts
+          .filter(wlfilter)
+          .map(function(script) { return script.text; })
+          .filter(function(text) { return text.length > 0; });
+      var srcScripts = scripts
+          .filter(wlfilter)
+          .filter(function(script) { return script.src; });
 
       var loaded = 0;
       var all = srcScripts.length;
       var onLoad = function() {
         loaded = loaded + 1;
         if (loaded === all) {
-          textScripts.forEach(function(script) { eval(script); });
+          textScripts.forEach(function(scriptText) {
+            eval(scriptText);
+          });
         }
-      }
+      };
 
       srcScripts
         .forEach(function(script) {
@@ -58,6 +70,7 @@
           newScript.src = cacheBuster(src);
           newScript.async = true;
           newScript.onload = onLoad;
+          if (anyWhitelisted) newScript.dataset.autoreload = true;
           document.head.appendChild(newScript);
         });
     }

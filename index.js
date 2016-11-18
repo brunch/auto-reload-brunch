@@ -33,7 +33,8 @@ class AutoReloader {
     this.delay = cfg.delay;
     this.cssMatch = cfg.match && cfg.match.stylesheets || /.css$/;
     this.jsMatch = cfg.match && cfg.match.javascripts || /.js$/;
-    this.forcewss = !!(config.plugins.autoReload.forcewss);
+    this.forcewss = !!(cfg.forcewss);
+    this.reloadWhitelistedJs = cfg.reloadWhitelistedJs || false;
 
     this.connections = [];
     this.port = this.ports.shift();
@@ -87,7 +88,7 @@ class AutoReloader {
     const isJsOrCss = file => isJs(file) || isCss(file);
 
     const allCss = didCompile && changedFiles.every(isCss);
-    const allJs = this.hot && didCompile && changedFiles.every(isJs);
+    const allJs = (this.hot || this.reloadWhitelistedJs) && didCompile && changedFiles.every(isJs);
     const allJsOrCss = this.hot && didCompile && changedFiles.every(isJsOrCss);
 
     if (toString.call(enabled) === '[object Object]') {
