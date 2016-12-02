@@ -5,7 +5,7 @@ Adds automatic browser reloading support to
 The plugin uses WebSocket technology to pass `compile` events to browser.
 
 ## Installation
-Install the plugin via npm with `npm install --save auto-reload-brunch`.
+Install the plugin via npm with `npm install --save-dev auto-reload-brunch`.
 
 Or, do manual install:
 
