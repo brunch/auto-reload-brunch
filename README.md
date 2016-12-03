@@ -52,6 +52,9 @@ config file (such as `brunch-config.coffee`):
   * Path to public x509 certificate.
 * __forcewss__: Optional, no default.
   * make the client always use `wss://` instead of `ws://`.
+* __reloadWhitelistedJs__: _(Boolean)_ Defaults to `false`.
+  * Evaluate new javascript code inside `<script>` tagged with `data-autoreload="true"`.
+
 
 **Example:**
 ```coffeescript
@@ -69,6 +72,7 @@ exports.config =
       keyPath: 'path/to/ssl.key'
       certPath: 'path/to/ssl.crt'
       forcewss: true
+      reloadWhitelistedJs: false
 ```
 
 ### Client-side settings
