@@ -1,49 +1,51 @@
-var expect = require('chai').expect;
-var extend = require('util')._extend;
-var path = require('path');
+'use strict';
 
-var Plugin = require('../index');
+const expect = require('chai').expect;
+const extend = require('util')._extend;
+const path = require('path');
 
-describe('Plugin', function() {
+const Plugin = require('../index');
 
-  beforeEach(function() {
-    this.subject = function(config) {
-      return new Plugin({ persistent: true, hot: config && config.hot, plugins: { autoReload: config || {} } })
-    };
+describe('Plugin', () => {
+
+  let subject = null;
+
+  beforeEach(() => {
+    subject = config => new Plugin({
+      persistent: true,
+      hot: config && config.hot,
+      plugins: {autoReload: config || {}},
+    });
   });
 
-  it('should be an object', function() {
-    expect(this.subject()).to.be.ok;
+  it('should has #onCompile method', () => {
+    expect(subject()).to.respondTo('onCompile');
   });
 
-  it('should has #onCompile method', function() {
-    expect(this.subject().onCompile).to.be.an.instanceof(Function);
-  });
-
-  describe('SSL support', function() {
-    it('should not start an HTTPS server', function() {
-      var plugin = this.subject();
+  describe('SSL support', () => {
+    it('should not start an HTTPS server', () => {
+      const plugin = subject();
       expect(plugin.ssl).to.not.be.ok;
       expect(plugin.httpsServer).to.be.undefined;
     });
 
-    context('keyPath and certPath present', function() {
-      var sslOptions = {
+    context('keyPath and certPath present', () => {
+      const sslOptions = {
         enabled: true,
         keyPath: path.join(__dirname, './lvh.me.key'),
-        certPath: path.join(__dirname, './lvh.me.cert')
+        certPath: path.join(__dirname, './lvh.me.cert'),
       };
 
-      it('should start an HTTPS server', function() {
-        var plugin = this.subject(sslOptions);
+      it('should start an HTTPS server', () => {
+        const plugin = subject(sslOptions);
         expect(plugin).to.be.ok;
         expect(plugin.ssl).to.be.true;
         expect(plugin.httpsServer).to.be.ok;
       });
 
-      context('plugin disabled', function() {
-        it('should not start an HTTPS server', function() {
-          var plugin = this.subject(extend(sslOptions, { enabled: false }));
+      context('plugin disabled', () => {
+        it('should not start an HTTPS server', () => {
+          const plugin = subject(extend(sslOptions, {enabled: false}));
           expect(plugin.ssl).to.be.true;
           expect(plugin.httpsServer).to.be.undefined;
         });
@@ -51,49 +53,65 @@ describe('Plugin', function() {
     });
   });
 
-  describe('with match option', function () {
-    it('matches "stylesheet" by default', function() {
-      var messages = [];
-      var plugin = this.subject();
-      plugin.connections = [ mockConnection(msg => messages.push(msg)) ];
-      plugin.onCompile([ { path: 'public/abc.css' } ]);
-      expect(messages).to.eql([ 'stylesheet' ]);
+  describe('with match option', () => {
+    it('matches "stylesheet" by default', () => {
+      const messages = [];
+      const plugin = subject();
+      plugin.connections = [mockConnection(msg => messages.push(msg))];
+      plugin.onCompile([{
+        path: 'public/abc.css',
+      }]);
+      expect(messages).to.eql(['stylesheet']);
     });
 
-    it('matches "javascript" by default', function() {
-      var messages = [];
-      var plugin = this.subject({ hot: true });
-      plugin.connections = [ mockConnection(msg => messages.push(msg)) ];
-      plugin.onCompile([ { path: 'public/abc.js' } ]);
-      expect(messages).to.eql([ 'javascript', 'stylesheet' ]);
+    it('matches "javascript" by default', () => {
+      const messages = [];
+      const plugin = subject({hot: true});
+      plugin.connections = [mockConnection(msg => messages.push(msg))];
+      plugin.onCompile([{
+        path: 'public/abc.js',
+      }]);
+      expect(messages).to.eql(['javascript', 'stylesheet']);
     });
 
-    it('matches "page" for unknowns', function() {
-      var messages = [];
-      var plugin = this.subject();
-      plugin.connections = [ mockConnection(msg => messages.push(msg)) ];
-      plugin.onCompile([ { path: 'public/abc.xyz' } ]);
-      expect(messages).to.eql([ 'page' ]);
+    it('matches "page" for unknowns', () => {
+      const messages = [];
+      const plugin = subject();
+      plugin.connections = [mockConnection(msg => messages.push(msg))];
+      plugin.onCompile([{
+        path: 'public/abc.xyz',
+      }]);
+      expect(messages).to.eql(['page']);
     });
 
-    it('honors match.stylesheets', function() {
-      var messages = [];
-      var plugin = this.subject({ match: { stylesheets: /.scss$/ } });
-      plugin.connections = [ mockConnection(msg => messages.push(msg)) ];
-      plugin.onCompile([ { path: 'public/abc.scss' } ]);
-      expect(messages).to.eql([ 'stylesheet' ]);
+    it('honors match.stylesheets', () => {
+      const messages = [];
+      const plugin = subject({
+        match: {stylesheets: /.scss$/},
+      });
+      plugin.connections = [mockConnection(msg => messages.push(msg))];
+      plugin.onCompile([{
+        path: 'public/abc.scss',
+      }]);
+      expect(messages).to.eql(['stylesheet']);
     });
 
-    it('honors match.javascripts', function() {
-      var messages = [];
-      var plugin = this.subject({ match: { javascripts: /.jsx$/ }, hot: true });
-      plugin.connections = [ mockConnection(msg => messages.push(msg)) ];
-      plugin.onCompile([ { path: 'public/abc.jsx' } ]);
-      expect(messages).to.eql([ 'javascript', 'stylesheet' ]);
+    it('honors match.javascripts', () => {
+      const messages = [];
+      const plugin = subject({
+        match: {javascripts: /.jsx$/},
+        hot: true,
+      });
+      plugin.connections = [mockConnection(msg => messages.push(msg))];
+      plugin.onCompile([{
+        path: 'public/abc.jsx',
+      }]);
+      expect(messages).to.eql(['javascript', 'stylesheet']);
     });
 
-    function mockConnection (fn) {
-      return { readyState: 1, send: fn };
-    }
+    const mockConnection = fn => ({
+      readyState: 1,
+      send: fn,
+    });
   });
 });
