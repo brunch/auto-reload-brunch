@@ -27,13 +27,13 @@ class AutoReloader {
     }
 
     if (config.persistent) {
-      this.enabled = (cfg.enabled == null) ? true : cfg.enabled;
+      this.enabled = cfg.enabled == null ? true : cfg.enabled;
     }
     this.hot = config.hot;
     this.delay = cfg.delay;
     this.cssMatch = cfg.match && cfg.match.stylesheets || /.css$/;
     this.jsMatch = cfg.match && cfg.match.javascripts || /.js$/;
-    this.forcewss = !!(config.plugins.autoReload.forcewss);
+    this.forcewss = !!config.plugins.autoReload.forcewss;
 
     this.connections = [];
     this.port = this.ports.shift();
@@ -58,7 +58,7 @@ class AutoReloader {
       this.httpsServer.listen(port, host);
       this.server = new WebSocketServer({server: this.httpsServer});
     } else {
-      this.server = new WebSocketServer({host: host, port: port});
+      this.server = new WebSocketServer({host, port});
     }
     this.server.on('connection', conn => {
       conns.push(conn);
@@ -118,7 +118,7 @@ class AutoReloader {
     }
   }
 
-  include() {
+  get include() {
     return this.enabled ?
       [sysPath.join(__dirname, 'vendor', fileName)] : [];
   }
