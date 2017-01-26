@@ -31,8 +31,8 @@ class AutoReloader {
     }
     this.hot = config.hot;
     this.delay = cfg.delay;
-    this.cssMatch = cfg.match && cfg.match.stylesheets || /.css$/;
-    this.jsMatch = cfg.match && cfg.match.javascripts || /.js$/;
+    this.cssMatch = cfg.match && cfg.match.stylesheets || /\.css$/;
+    this.jsMatch = cfg.match && cfg.match.javascripts || /\.js$/;
     this.forcewss = !!config.plugins.autoReload.forcewss;
 
     this.connections = [];
