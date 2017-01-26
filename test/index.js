@@ -18,12 +18,8 @@ describe('Plugin', () => {
     });
   });
 
-  it('should be an object', () => {
-    expect(subject()).to.be.ok;
-  });
-
   it('should has #onCompile method', () => {
-    expect(subject().onCompile).to.be.an.instanceof(Function);
+    expect(subject()).to.respondTo('onCompile');
   });
 
   describe('SSL support', () => {
