@@ -62,7 +62,7 @@ class AutoReloader {
     }
     this.server.on('connection', conn => {
       conns.push(conn);
-      conn.on('close', () => conns.splice(conn, 1));
+      conn.on('close', () => conns.splice(conns.indexOf(conn), 1));
     });
     this.server.on('error', error => {
       if (error.toString().match(/EADDRINUSE/)) {
