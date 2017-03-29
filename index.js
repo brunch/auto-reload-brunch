@@ -26,6 +26,10 @@ class AutoReloader {
       this.ports = Array.isArray(cfg.port) ? cfg.port.slice() : [cfg.port];
     }
 
+    if (cfg.host != null) {
+      this.host = cfg.host;
+    }
+
     if (config.persistent) {
       this.enabled = cfg.enabled == null ? true : cfg.enabled;
     }
@@ -139,6 +143,10 @@ class AutoReloader {
     if (this.enabled && (this.forcewss || this.ssl) &&
         sysPath.basename(file.path) === fileName) {
       finalData = finalData.replace('ws://', 'wss://');
+    }
+    if (this.enabled && this.host &&
+        sysPath.basename(file.path) === fileName) {
+      finalData = finalData.replace(/var host = .*/, `var host = "${this.host}"`)
     }
 
     return Promise.resolve(finalData);
