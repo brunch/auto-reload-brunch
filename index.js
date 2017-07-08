@@ -146,7 +146,7 @@ class AutoReloader {
     }
     if (this.enabled && this.host &&
         sysPath.basename(file.path) === fileName) {
-      finalData = finalData.replace(/var host = .*/, `var host = "${this.host}"`)
+      finalData = finalData.replace(/var host = .*/, `var host = "${this.host}"`);
     }
 
     return Promise.resolve(finalData);
