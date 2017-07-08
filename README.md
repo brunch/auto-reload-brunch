@@ -1,6 +1,6 @@
 # auto-reload-brunch
 
-Adds automatic browser reloading support to [brunch] when using the `brunch watch` command.
+Adds automatic browser reloading support to [Brunch] when using the `brunch watch` command.
 
 The plugin uses WebSocket technology to pass `compile` events to browser.
 
@@ -15,7 +15,7 @@ Or, do manual install:
 
 ## Usage
 
-In most cases, auto-reload-brunch works out of the box without any further configuration. Stylesheet changes will be applied seamlessly, and any other changes will trigger a page refresh. To prevent a stylesheet from being reloaded automatically, set the `data-autoreload="false"` attribute on the stylesheet's link tag.
+In most cases, `auto-reload-brunch` works out of the box without any further configuration. Stylesheet changes will be applied seamlessly, and any other changes will trigger a page refresh. To prevent a stylesheet from being reloaded automatically, set the `data-autoreload="false"` attribute on the stylesheet's link tag.
 
 ### Brunch plugin settings
 
@@ -29,8 +29,8 @@ If customization is needed or desired, settings can be modified in your brunch c
   - If an array, it will use the first value, but automatically fail over to the next value in the array if the attempted port is already in use on the system. This allows multiple instances to run without conflict.
 * __delay__: _(Integer, in milliseconds)_ Optional, no default
   - If your system is having race-condition type problems when the browser tries to reload immediately after a compile, use this to set a delay before the reload signal is sent.
-* __host__: (Default: '0.0.0.0') Server's host address.
-* __forceRepaint__: (Default: false) forcefully repaint the page after stylesheets refresh. Enabled in Chrome by default to mitigate the issue when it doesn't always update styles.
+* __host__: (Default: `'0.0.0.0'`) Server's host address.
+* __forceRepaint__: (Default: `false`) forcefully repaint the page after stylesheets refresh. Enabled in Chrome by default to mitigate the issue when it doesn't always update styles.
 * __keyPath__: Optional, no default.
   - Path to private key used for SSL.
 * __certPath__: Optional, no default.
@@ -47,9 +47,9 @@ module.exports = {
   plugins: {
     autoReload: {
       enabled: {
-        css: on,
-        js: on,
-        assets: off
+        css: true,
+        js: true,
+        assets: false
       },
       port: [1234, 2345, 3456],
       delay: require('os').platform() === 'win32' && 200,
@@ -58,7 +58,7 @@ module.exports = {
       forcewss: true
     }
   }
-}
+};
 ```
 
 ### Client-side settings
@@ -81,7 +81,7 @@ window.brunch['auto-reload'].disabled = true;
 
 ### Custom file extensions
 
-Starting `<unreleased>`, you can configure what extensions count as stylesheet and javascript reloads. By default, any compile file with an extension other than `.css` or `.js` will do a full page reload. The `match` option allows you to issue efficient stylesheet-only reloads for other file extensions as well.
+You can configure what extensions count as stylesheet and javascript reloads. By default, any compile file with an extension other than `.css` or `.js` will do a full page reload. The `match` option allows you to issue efficient stylesheet-only reloads for other file extensions as well.
 
 The value of `match.stylesheets` and `match.javascripts` is an [anymatch] set, and so can be a wildcard, regexp, function, or an array thereof.
 
