@@ -76,8 +76,6 @@
   var host = ar.host || br.server || window.location.hostname || 'localhost';
 
   var connect = function() {
-    console.log(window.location.protocol);
-
     var proto = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
     var connection = new WebSocket(proto + host + ':' + port);
     connection.onmessage = function(event) {
