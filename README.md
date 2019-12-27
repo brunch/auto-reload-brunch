@@ -4,16 +4,13 @@ Adds automatic browser reloading support to [Brunch] when using the `brunch watc
 
 The plugin uses WebSocket technology to pass `compile` events to browser.
 
-## Installation
-
-Install the plugin via npm with `npm install --save-dev auto-reload-brunch`.
-
-Or, do manual install:
-
-* Add `"auto-reload-brunch": "x.y.z"` to `package.json` of your brunch app. Pick a plugin version that corresponds to your minor (y) brunch version.
-* If you want to use git version of plugin, add `"auto-reload-brunch": "git+ssh://git@github.com:brunch/auto-reload-brunch.git"`.
-
 ## Usage
+
+Install the plugin via npm with
+
+```
+npm install -S auto-reload-brunch
+```
 
 In most cases, `auto-reload-brunch` works out of the box without any further configuration. Stylesheet changes will be applied seamlessly, and any other changes will trigger a page refresh. To prevent a stylesheet from being reloaded automatically, set the `data-autoreload="false"` attribute on the stylesheet's link tag.
 
