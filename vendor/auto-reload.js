@@ -7,6 +7,7 @@
   if (window._ar) return;
   window._ar = true;
 
+  console.log(ar, br, ar.disabled, !ar.disabled);
   var cacheBuster = function(url) {
     var date = Math.round(Date.now() / 1000).toString();
     url = url.replace(/(\&|\\?)cacheBuster=\d*/, '');
