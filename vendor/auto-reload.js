@@ -67,7 +67,7 @@
 
   var connect = function(){
     if (ar.disabled) return;
-    var connection = new WebSocket('ws://' + host + ':' + port);
+    var connection = new WebSocket('wss://' + host + ':' + port);
     connection.onmessage = function(event){
       var message = event.data;
       var reloader = reloaders[message] || reloaders.page;
