@@ -6,7 +6,6 @@
   if (!WebSocket || ar.disabled) return;
   if (window._ar) return;
   window._ar = true;
-  console.log(ar, br);
 
   var cacheBuster = function(url){
     var date = Math.round(Date.now() / 1000).toString();
@@ -68,9 +67,7 @@
   var host = ar.host || br.server || window.location.hostname || 'localhost';
 
   var connect = function(){
-    console.log(ar, br);
-    if (ar.disabled) return;
-    var connection = new WebSocket('wss://' + host + ':' + port);
+    var connection = new WebSocket('ws://' + host + ':' + port);
     connection.onmessage = function(event){
       var message = event.data;
       var reloader = reloaders[message] || reloaders.page;
@@ -83,6 +80,8 @@
       window.setTimeout(connect, 1000);
     };
   };
-  connect();
+  if (!ar.disabled){
+    connect();
+  };
 })();
 /* jshint ignore:end */
