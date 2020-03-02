@@ -82,6 +82,7 @@
     var protocol = window.location.protocol == 'https:' ? 'wss://' : 'ws://';
     // var connection = new WebSocket(protocol + host + ':' + port);
     // console.log(ar, br, ar.disabled, !ar.disabled);
+    console.log(ar, br, ar.disabled, !ar.disabled);
     if (ar.disabled) {
       return;
     };
