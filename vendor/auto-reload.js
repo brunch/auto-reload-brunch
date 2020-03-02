@@ -7,21 +7,21 @@
   if (window._ar) return;
   window._ar = true;
 
-  var cacheBuster = function(url){
+  var cacheBuster = function(url) {
     var date = Math.round(Date.now() / 1000).toString();
     url = url.replace(/(\&|\\?)cacheBuster=\d*/, '');
-    return url + (url.indexOf('?') >= 0 ? '&' : '?') +'cacheBuster=' + date;
+    return url + (url.indexOf('?') >= 0 ? '&' : '?') + 'cacheBuster=' + date;
   };
 
   var browser = navigator.userAgent.toLowerCase();
   var forceRepaint = ar.forceRepaint || browser.indexOf('chrome') > -1;
 
   var reloaders = {
-    page: function(){
+    page: function() {
       window.location.reload(true);
     },
 
-    stylesheet: function(){
+    stylesheet: function() {
       [].slice
         .call(document.querySelectorAll('link[rel=stylesheet]'))
         .filter(function(link) {
@@ -33,20 +33,32 @@
         });
 
       // Hack to force page repaint after 25ms.
-      if (forceRepaint) setTimeout(function() { document.body.offsetHeight; }, 25);
+      if (forceRepaint) {
+        setTimeout(function() {
+          document.body.offsetHeight;
+        }, 25);
+      }
     },
 
-    javascript: function(){
+    javascript: function() {
       var scripts = [].slice.call(document.querySelectorAll('script'));
-      var textScripts = scripts.map(function(script) { return script.text }).filter(function(text) { return text.length > 0 });
-      var srcScripts = scripts.filter(function(script) { return script.src });
+      var textScripts = scripts.map(function(script) {
+        return script.text
+      }).filter(function(text) {
+        return text.length > 0
+      });
+      var srcScripts = scripts.filter(function(script) {
+        return script.src
+      });
 
       var loaded = 0;
       var all = srcScripts.length;
       var onLoad = function() {
         loaded = loaded + 1;
         if (loaded === all) {
-          textScripts.forEach(function(script) { eval(script); });
+          textScripts.forEach(function(script) {
+            eval(script);
+          });
         }
       }
 
@@ -66,25 +78,26 @@
   var port = ar.port || 9485;
   var host = ar.host || br.server || window.location.hostname || 'localhost';
 
-  var connect = function(){
+  var connect = function() {
     var protocol = window.location.protocol == 'https:' ? 'wss://' : 'ws://';
     // var connection = new WebSocket(protocol + host + ':' + port);
+    console.log(ar, br, ar.disabled, !ar.disabled);
+    if (ar.disabled) {
+      return;
+    };
     var connection = new WebSocket('ws://' + host + ':' + port);
-    connection.onmessage = function(event){
+    connection.onmessage = function(event) {
       var message = event.data;
       var reloader = reloaders[message] || reloaders.page;
       reloader();
     };
-    connection.onerror = function(){
+    connection.onerror = function() {
       if (connection.readyState) connection.close();
     };
-    connection.onclose = function(){
+    connection.onclose = function() {
       window.setTimeout(connect, 1000);
     };
   };
-  console.log(ar, br, window.location.protocol);
-  if (!ar.disabled){
-    connect();
-  };
+  connect();
 })();
 /* jshint ignore:end */
