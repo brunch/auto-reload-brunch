@@ -81,7 +81,6 @@
   var connect = function() {
     var protocol = window.location.protocol == 'https:' ? 'wss://' : 'ws://';
     var connection = new WebSocket(protocol + host + ':' + port);
-    console.log(ar, br, ar.disabled, !ar.disabled);
     connection.onmessage = function(event) {
       var message = event.data;
       var reloader = reloaders[message] || reloaders.page;
