@@ -81,7 +81,7 @@
   var connect = function() {
     var protocol = window.location.protocol == 'https:' ? 'wss://' : 'ws://';
     // var connection = new WebSocket(protocol + host + ':' + port);
-    console.log(ar, br, ar.disabled, !ar.disabled);
+    // console.log(ar, br, ar.disabled, !ar.disabled);
     if (ar.disabled) {
       return;
     };
@@ -98,6 +98,8 @@
       window.setTimeout(connect, 1000);
     };
   };
+  console.log(ar, br, ar.disabled, !ar.disabled);
   connect();
+  console.log(ar, br, ar.disabled, !ar.disabled);
 })();
 /* jshint ignore:end */
