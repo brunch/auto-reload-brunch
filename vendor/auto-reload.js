@@ -66,9 +66,9 @@
   var host = ar.host || br.server || window.location.hostname || 'localhost';
 
   var connect = function(){
+    if (ar.disabled) return;
     var connection = new WebSocket('ws://' + host + ':' + port);
     connection.onmessage = function(event){
-      if (ar.disabled) return;
       var message = event.data;
       var reloader = reloaders[message] || reloaders.page;
       reloader();
