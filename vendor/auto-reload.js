@@ -84,9 +84,6 @@
     // var connection = new WebSocket(protocol + host + ':' + port);
     // console.log(ar, br, ar.disabled, !ar.disabled);
     console.log(ar, br, ar.disabled, !ar.disabled);
-    if (ar.disabled) {
-      return;
-    };
     var connection = new WebSocket('ws://' + host + ':' + port);
     connection.onmessage = function(event) {
       var message = event.data;
