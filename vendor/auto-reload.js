@@ -7,7 +7,6 @@
   if (window._ar) return;
   window._ar = true;
 
-  console.log(ar, br, ar.disabled, !ar.disabled, window, window.brunch);
   var cacheBuster = function(url) {
     var date = Math.round(Date.now() / 1000).toString();
     url = url.replace(/(\&|\\?)cacheBuster=\d*/, '');
@@ -81,10 +80,8 @@
 
   var connect = function() {
     var protocol = window.location.protocol == 'https:' ? 'wss://' : 'ws://';
-    // var connection = new WebSocket(protocol + host + ':' + port);
-    // console.log(ar, br, ar.disabled, !ar.disabled);
+    var connection = new WebSocket(protocol + host + ':' + port);
     console.log(ar, br, ar.disabled, !ar.disabled);
-    var connection = new WebSocket('ws://' + host + ':' + port);
     connection.onmessage = function(event) {
       var message = event.data;
       var reloader = reloaders[message] || reloaders.page;
@@ -97,8 +94,8 @@
       window.setTimeout(connect, 1000);
     };
   };
-  console.log(ar, br, ar.disabled, !ar.disabled);
-  connect();
-  console.log(ar, br, ar.disabled, !ar.disabled);
+  if(ar.disabled == undefined || !ar.disabled){
+    connect();
+  }
 })();
 /* jshint ignore:end */
