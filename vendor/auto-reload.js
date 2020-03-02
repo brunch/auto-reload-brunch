@@ -62,10 +62,13 @@
         });
     }
   };
+
   var port = ar.port || 9485;
   var host = ar.host || br.server || window.location.hostname || 'localhost';
 
   var connect = function(){
+    console.log(ar, br);
+
     if (ar.disabled) return;
     var connection = new WebSocket('wss://' + host + ':' + port);
     connection.onmessage = function(event){
