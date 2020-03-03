@@ -72,6 +72,7 @@ If your `brunch watch` is running on a different machine than your preview scree
 You can also set the port (single integer only) and/or disable auto-reload via client-side scripting, although generally it's a better idea to use brunch config for this:
 
 ```js
+window.brunch['auto-reload'] = window.brunch['auto-reload'] || {};
 window.brunch['auto-reload'].port = 1234
 window.brunch['auto-reload'].disabled = true;
 ```

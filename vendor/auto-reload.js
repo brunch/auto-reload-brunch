@@ -62,13 +62,14 @@
         });
     }
   };
+
   var port = ar.port || 9485;
   var host = ar.host || br.server || window.location.hostname || 'localhost';
 
   var connect = function(){
-    var connection = new WebSocket('ws://' + host + ':' + port);
-    connection.onmessage = function(event){
-      if (ar.disabled) return;
+    var protocol = window.location.protocol == 'https:' ? 'wss://' : 'ws://';
+    var connection = new WebSocket(protocol + host + ':' + port);
+    connection.onmessage = function(event) {
       var message = event.data;
       var reloader = reloaders[message] || reloaders.page;
       reloader();
@@ -80,6 +81,8 @@
       window.setTimeout(connect, 1000);
     };
   };
-  connect();
+  if(ar.disabled == undefined || !ar.disabled){
+    connect();
+  }
 })();
 /* jshint ignore:end */
