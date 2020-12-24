@@ -1,10 +1,9 @@
 {
-  "name": "auto-reload-brunch",
+  "name": "@boazblake/auto-reload-brunch",
   "version": "2.7.1",
   "description": "Adds automatic browser reloading support to brunch.",
   "author": {
-    "name": "Paul Miller",
-    "url": "http://paulmillr.com/"
+    "name": "Boaz Blake",
   },
   "homepage": "https://github.com/brunch/auto-reload-brunch",
   "keywords": [
@@ -13,9 +12,12 @@
     "websocket",
     "auto reload"
   ],
+  "publishConfig":{
+      "registry": "https://npm.pkg.github.com/boazblake"
+  },
   "repository": {
     "type": "git",
-    "url": "git@github.com:brunch/auto-reload-brunch.git"
+    "url": "git@github.com:boazblake/auto-reload-brunch.git"
   },
   "scripts": {
     "test": "eslint index.js && mocha test"
