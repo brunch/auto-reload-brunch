@@ -1,7 +1,8 @@
 {
   "name": "auto-reload-brunch",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Adds automatic browser reloading support to brunch.",
+  "files": ["index.js", "vendor"],
   "author": {
     "name": "Paul Miller",
     "url": "https://paulmillr.com/"
